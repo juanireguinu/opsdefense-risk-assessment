@@ -354,11 +354,17 @@ function renderStepF(){
 function bindInputs(){
   document.querySelectorAll("[data-field]").forEach(function(el){
     var f = el.getAttribute("data-field");
-    var ev = el.tagName==="SELECT"?"change":"input";
-    el.addEventListener(ev,function(){
-      form[f] = el.value;
-      render();
-    });
+    if(el.tagName==="SELECT"){
+      el.addEventListener("change",function(){
+        form[f] = el.value;
+        render();
+      });
+    } else {
+      el.addEventListener("input",function(){
+        form[f] = el.value;
+        validateStep();
+      });
+    }
   });
   var oppLabels = ["Summarizing research or data into insights","Writing boilerplate code (endpoints, models, migrations)","Generating test cases from specs","Writing or updating documentation","Creating draft specs or acceptance criteria","Code review prep (linting, pattern checks)"];
   document.querySelectorAll("[data-opp]").forEach(function(el){
