@@ -3,44 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AI Risk Assessment - OpsDefense</title>
+<title>AI Risk Assessment - OpsDefense v2</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
---purple:#534AB7;--plite:#EEEDFE;--pmid:#AFA9EC;--pdark:#3C3489;
---teal:#1D9E75;--tlite:#E1F5EE;--tdark:#085041;
---coral:#D85A30;--clite:#FAECE7;--cdark:#712B13;
---red:#E24B4A;--rlite:#FCEBEB;--rdark:#791F1F;--rtext:#A32D2D;
---amber:#BA7517;--alite:#FAEEDA;--adark:#633806;--atext:#854F0B;
---blue:#378ADD;--blite:#E6F1FB;--bdark:#0C447C;
---green:#1D9E75;--glite:#EAF3DE;--gdark:#27500A;--gtext:#3B6D11;
---g50:#F7F6F3;--g100:#EDEDEA;--g200:#D3D1C7;--g400:#888780;--g600:#5F5E5A;--g800:#2C2C2A;
---bg:#fff;--bg2:#F7F6F3;--tx:#1A1A18;--tx2:#5F5E5A;--tx3:#888780;--brd:#E8E6E1;
---r:10px;--rl:14px}
+:root{--purple:#534AB7;--plite:#EEEDFE;--pdark:#3C3489;--teal:#1D9E75;--tlite:#E1F5EE;--tdark:#085041;--coral:#D85A30;--clite:#FAECE7;--cdark:#712B13;--red:#E24B4A;--rlite:#FCEBEB;--rdark:#791F1F;--rtext:#A32D2D;--amber:#BA7517;--alite:#FAEEDA;--adark:#633806;--atext:#854F0B;--blue:#378ADD;--blite:#E6F1FB;--green:#1D9E75;--glite:#EAF3DE;--gdark:#27500A;--gtext:#3B6D11;--g50:#F7F6F3;--g100:#EDEDEA;--g200:#D3D1C7;--g400:#888780;--g600:#5F5E5A;--g800:#2C2C2A;--bg:#fff;--bg2:#F7F6F3;--tx:#1A1A18;--tx2:#5F5E5A;--tx3:#888780;--brd:#E8E6E1;--r:10px;--rl:14px}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;justify-content:center;padding:24px 16px}
 .wrap{width:100%;max-width:520px}
-.header{text-align:center;margin-bottom:28px}
+.header{text-align:center;margin-bottom:24px}
 .logo{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--teal));margin-bottom:10px}
 .logo svg{width:22px;height:22px}
-.header h1{font-size:20px;font-weight:600;color:var(--tx);margin-bottom:2px}
-.header p{font-size:13px;color:var(--tx3)}
-.progress{display:flex;gap:4px;margin-bottom:24px}
-.progress-bar{height:4px;border-radius:2px;flex:1;background:var(--g100);transition:background .4s}
-.progress-bar.done{background:var(--teal)}
-.progress-bar.active{background:var(--purple)}
-.step-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.step-num{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--purple)}
-.step-title{font-size:18px;font-weight:600;color:var(--tx);margin-bottom:4px}
-.step-hint{font-size:13px;color:var(--tx3);line-height:1.55;margin-bottom:20px;font-style:italic}
-.field{margin-bottom:20px}
-.field-label{font-size:14px;font-weight:500;color:var(--tx);margin-bottom:3px;display:flex;align-items:center;gap:6px}
+h1{font-size:20px;font-weight:600;margin-bottom:2px}
+.sub{font-size:13px;color:var(--tx3)}
+.progress{display:flex;gap:4px;margin-bottom:20px}
+.pbar{height:4px;border-radius:2px;flex:1;background:var(--g100);transition:background .4s}
+.pbar.done{background:var(--teal)}
+.pbar.active{background:var(--purple)}
+.step-num{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--purple);margin-bottom:4px}
+.step-title{font-size:18px;font-weight:600;margin-bottom:4px}
+.step-hint{font-size:13px;color:var(--tx3);line-height:1.55;margin-bottom:16px;font-style:italic}
+.field{margin-bottom:18px}
+.field-label{font-size:14px;font-weight:500;margin-bottom:3px;display:flex;align-items:center;gap:6px}
 .field-hint{font-size:12px;color:var(--tx3);margin-bottom:8px;line-height:1.5;font-style:italic}
 .tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.4px}
 .tag-pop{background:var(--plite);color:var(--pdark)}
 .tag-swe{background:var(--tlite);color:var(--tdark)}
 .tag-any{background:var(--g50);color:var(--g600)}
-select,input[type=text],textarea{width:100%;padding:10px 14px;border:1.5px solid var(--brd);border-radius:var(--r);font-size:13px;font-family:inherit;color:var(--tx);background:var(--bg);transition:border-color .2s;outline:none;-webkit-appearance:none;appearance:none}
+select,input[type=text],textarea{width:100%;padding:10px 14px;border:1.5px solid var(--brd);border-radius:var(--r);font-size:13px;font-family:inherit;color:var(--tx);background:var(--bg);transition:border-color .2s;outline:none;appearance:none}
 select{background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23888780' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;cursor:pointer}
 select:focus,input:focus,textarea:focus{border-color:var(--purple)}
 textarea{resize:vertical;min-height:72px}
@@ -50,7 +39,7 @@ textarea{resize:vertical;min-height:72px}
 .flag-amber{background:var(--alite);color:var(--adark)}
 .important-marker{border-left:3px solid var(--teal);padding-left:16px;border-radius:0}
 .cb-group{display:flex;flex-direction:column;gap:4px}
-.cb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;background:var(--bg2);cursor:pointer;font-size:13px;color:var(--tx);transition:background .15s,box-shadow .15s;border:1.5px solid transparent}
+.cb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;background:var(--bg2);cursor:pointer;font-size:13px;border:1.5px solid transparent;transition:all .15s}
 .cb-item:hover{background:var(--g100)}
 .cb-item.checked{background:var(--alite);border-color:var(--amber)}
 .cb-item input{accent-color:var(--amber);width:16px;height:16px;cursor:pointer}
@@ -64,15 +53,28 @@ textarea{resize:vertical;min-height:72px}
 .btn-score{background:linear-gradient(135deg,var(--purple),var(--teal));color:#fff;font-size:15px;padding:14px}
 .btn-score:hover{opacity:.92}
 .btn-score:disabled{opacity:.4;cursor:not-allowed}
+.btn-new{background:var(--bg2);color:var(--tx2);width:100%;margin-top:12px;padding:12px;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:all .2s}
+.btn-new:hover{background:var(--g100)}
+.mode-grid{display:grid;gap:10px;margin-bottom:16px}
+.mode-card{background:var(--bg);border:1.5px solid var(--brd);border-radius:var(--rl);padding:16px 20px;cursor:pointer;transition:all .2s;text-align:left}
+.mode-card:hover{border-color:var(--purple);background:var(--plite)}
+.mode-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
+.mode-card p{font-size:12px;color:var(--tx3);line-height:1.5}
+.mode-badge{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px}
+.mb-purple{background:var(--plite);color:var(--pdark)}
+.mb-teal{background:var(--tlite);color:var(--tdark)}
+.mb-gray{background:var(--g50);color:var(--g600)}
+.locked-card{background:var(--bg2);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;border:1px dashed var(--brd)}
+.locked-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);margin-bottom:8px}
+.locked-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--tx2)}
+.locked-row span:first-child{color:var(--tx3)}
 .result-card{border-radius:var(--rl);padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
 .result-card::before{content:'';position:absolute;top:0;left:0;width:5px;height:100%;border-radius:14px 0 0 14px}
 .result-high{background:var(--rlite)}.result-high::before{background:var(--red)}
 .result-mid{background:var(--alite)}.result-mid::before{background:var(--amber)}
 .result-low{background:var(--glite)}.result-low::before{background:var(--green)}
 .result-chip{display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:20px;margin-bottom:8px}
-.chip-high{background:#E24B4A20;color:var(--rdark)}
-.chip-mid{background:#BA751720;color:var(--adark)}
-.chip-low{background:#1D9E7520;color:var(--gdark)}
+.chip-high{background:#E24B4A20;color:var(--rdark)}.chip-mid{background:#BA751720;color:var(--adark)}.chip-low{background:#1D9E7520;color:var(--gdark)}
 .result-tier{font-size:28px;font-weight:600;margin-bottom:4px}
 .tier-high{color:var(--rdark)}.tier-mid{color:var(--adark)}.tier-low{color:var(--gdark)}
 .result-name{font-size:14px;font-weight:500;margin-bottom:12px}
@@ -82,545 +84,528 @@ textarea{resize:vertical;min-height:72px}
 .metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
 .metric{background:var(--bg2);border-radius:var(--r);padding:12px 14px}
 .metric-label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);margin-bottom:3px}
-.metric-value{font-size:15px;font-weight:600;color:var(--tx)}
+.metric-value{font-size:15px;font-weight:600}
 .section-block{margin-bottom:14px}
-.section-block-title{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:6px}
+.section-block-title{font-size:13px;font-weight:600;margin-bottom:6px}
 .agenda-item{font-size:13px;color:var(--tx2);padding:7px 12px;border-left:2px solid var(--purple);margin-bottom:5px;line-height:1.5;background:var(--plite);border-radius:0 6px 6px 0}
-.flag-item{font-size:13px;padding:7px 12px;margin-bottom:5px;line-height:1.5;border-radius:6px}
-.flag-item-warn{background:var(--alite);color:var(--adark)}
-.flag-item-danger{background:var(--rlite);color:var(--rdark)}
 .modifier-item{font-size:13px;padding:7px 12px;background:var(--alite);color:var(--adark);border-radius:6px;margin-bottom:5px;border:1px solid #BA751720}
+.flag-item{font-size:13px;padding:7px 12px;background:var(--rlite);color:var(--rdark);border-radius:6px;margin-bottom:5px}
 .export-section{margin-top:16px}
 .export-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.export-title{font-size:13px;font-weight:600;color:var(--tx)}
+.export-title{font-size:13px;font-weight:600}
 .btn-copy{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;border:1.5px solid var(--brd);background:var(--bg);color:var(--tx2);transition:all .2s}
 .btn-copy:hover{background:var(--bg2)}
 .btn-copy.copied{background:var(--tlite);color:var(--tdark);border-color:var(--teal)}
-.export-box{background:var(--bg2);border-radius:var(--r);padding:14px 16px;font-size:11px;font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;white-space:pre-wrap;line-height:1.6;color:var(--tx);max-height:300px;overflow-y:auto;border:1px solid var(--brd)}
-.btn-edit{width:100%;margin-top:12px}
+.export-box{background:var(--bg2);border-radius:var(--r);padding:14px 16px;font-size:11px;font-family:'SF Mono',Consolas,monospace;white-space:pre-wrap;line-height:1.6;max-height:300px;overflow-y:auto;border:1px solid var(--brd)}
 .autonomy-grid{display:grid;grid-template-columns:80px 1fr;gap:4px 12px;font-size:12px;margin-top:8px}
-.autonomy-phase{font-weight:600;color:var(--tx);padding:4px 0}
+.autonomy-phase{font-weight:600;padding:4px 0}
 .autonomy-level{color:var(--tx2);padding:4px 0}
+.lens-compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.lens-card{border-radius:var(--r);padding:12px 14px}
+.lens-card h4{font-size:12px;font-weight:600;margin-bottom:2px}
+.lens-card .tier-val{font-size:18px;font-weight:600}
+.lens-pops{background:var(--plite)}
+.lens-pops h4{color:var(--pdark)}
+.lens-swe{background:var(--tlite)}
+.lens-swe h4{color:var(--tdark)}
+.divergence{background:var(--alite);border:1px solid #BA751720;border-radius:var(--r);padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--adark)}
+.divergence-title{font-weight:600;margin-bottom:4px;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+.match-badge{background:var(--glite);color:var(--gdark);border-radius:var(--r);padding:10px 16px;margin-bottom:16px;font-size:13px;font-weight:500;text-align:center}
+.solo-badge{background:var(--alite);color:var(--adark);border-radius:var(--r);padding:8px 12px;margin-bottom:12px;font-size:12px;text-align:center}
+.search-results{margin-top:12px}
+.search-item{background:var(--bg);border:1.5px solid var(--brd);border-radius:var(--r);padding:12px 16px;cursor:pointer;transition:all .2s;margin-bottom:6px}
+.search-item:hover{border-color:var(--teal);background:var(--tlite)}
+.search-item h4{font-size:14px;font-weight:500;margin-bottom:2px}
+.search-item p{font-size:12px;color:var(--tx3)}
+.spinner{display:inline-block;width:24px;height:24px;border:2.5px solid var(--g100);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-center{text-align:center;padding:40px 0}
+.error-box{background:var(--rlite);border:1px solid #E24B4A30;border-radius:var(--r);padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--rdark)}
 </style>
 </head>
 <body>
 <div class="wrap" id="app"></div>
-
 <script>
-var STEPS = [
-  {id:"A",label:"The basics",accent:"var(--purple)"},
-  {id:"B",label:"If something goes wrong, who feels it?",accent:"var(--coral)"},
-  {id:"C",label:"How likely is AI to get this wrong?",accent:"var(--teal)"},
-  {id:"D",label:"Where could AI save us the most time?",accent:"var(--amber)"},
-  {id:"E",label:"Automatic red flags",accent:"var(--red)"},
-  {id:"F",label:"How honest can you be right now?",accent:"var(--blue)"}
-];
+// ============================================================
+// CONFIGURATION — Replace with your Apps Script URL
+// ============================================================
+var API_URL = https://script.google.com/a/macros/nubank.com.br/s/AKfycbyhPZDRI_y5mNY9RrvjgRaGG1hXXCYiI8COLOdk4Vssu3Cbg-OYoJLWxuPfaUPXun7W/exec;
 
-var form = {
-  betName:"",role:"",summary:"",
-  audience:"",regulatory:"",financial:"",rollback:"",
-  domain:"",spec:"",test:"",verify:"",
-  opportunities:[],timeSink:"",
-  pii:"",contractual:"",firstTime:"",
-  confidence:"",uncertaintyNotes:""
+// ============================================================
+// STATE
+// ============================================================
+var S = {
+  phase:"landing", mode:null, step:0, role:"",
+  form:{betName:"",summary:"",role:"",audience:"",regulatory:"",financial:"",rollback:"",spec:"",domain:"",test:"",verify:"",pii:"",contractual:"",firstTime:"",confidence:"",uncertaintyNotes:"",opportunities:[],timeSink:""},
+  partner:null, searchQuery:"", searchResults:[], selectedPartner:null,
+  result:null, error:null, saving:false
 };
-var step = 0;
-var phase = "form";
-var result = null;
 
 function $(id){return document.getElementById(id)}
-function h(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
-
-function render(){
-  var app = $("app");
-  if(phase==="form") renderForm(app);
-  else renderResult(app);
-}
-
-function renderForm(app){
-  var html = '';
-  html += '<div class="header"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>';
-  html += '<h1>AI risk assessment</h1><p>OpsDefense methodology v1.0</p></div>';
-
-  html += '<div class="progress">';
-  for(var i=0;i<STEPS.length;i++){
-    var cls = i<step?"done":i===step?"active":"";
-    html += '<div class="progress-bar '+cls+'"></div>';
-  }
-  html += '</div>';
-
-  html += '<div class="step-label"><span class="step-num">Step '+(step+1)+' of '+STEPS.length+'</span></div>';
-  html += '<div class="step-title">'+STEPS[step].label+'</div>';
-
-  if(step===0) html += renderStepA();
-  else if(step===1) html += renderStepB();
-  else if(step===2) html += renderStepC();
-  else if(step===3) html += renderStepD();
-  else if(step===4) html += renderStepE();
-  else if(step===5) html += renderStepF();
-
-  html += '<div class="btns">';
-  if(step>0) html += '<button class="btn btn-back" onclick="goBack()">Back</button>';
-  if(step<5) html += '<button class="btn btn-next" id="btn-next" onclick="goNext()">Next</button>';
-  else html += '<button class="btn btn-score" id="btn-score" onclick="doScore()">Score this bet</button>';
-  html += '</div>';
-
-  app.innerHTML = html;
-  bindInputs();
-  validateStep();
-}
-
-function tag(t){return '<span class="tag tag-'+({POp:"pop",SWE:"swe"}[t]||"any")+'">'+t+'</span>'}
-
-function sel(name,opts,hint){
-  var v = form[name];
-  var selected = opts.find(function(o){return o.value===v});
-  var ex = selected&&selected.ex?'<div class="example">'+h(selected.ex)+'</div>':"";
-  var s = '<select data-field="'+name+'">';
-  for(var i=0;i<opts.length;i++){
-    s += '<option value="'+h(opts[i].value)+'"'+(opts[i].value===v?' selected':'')+'>'+h(opts[i].label)+'</option>';
-  }
-  s += '</select>'+ex;
-  return s;
-}
-
-function renderStepA(){
-  var s = '<div class="step-hint">Just so we know what we are talking about. Takes 30 seconds.</div>';
-  s += '<div class="field"><div class="field-label">Bet name '+tag("Anyone")+'</div>';
-  s += '<div class="field-hint">As it appears in your planning tools.</div>';
-  s += '<input type="text" data-field="betName" value="'+h(form.betName)+'" placeholder="e.g. Notification preferences redesign"></div>';
-
-  s += '<div class="field"><div class="field-label">I am filling this out as a... '+tag("Anyone")+'</div>';
-  s += '<div class="field-hint">Helps the scoring know which answers to trust most.</div>';
-  s += sel("role",[{value:"",label:"Select..."},{value:"pop",label:"POp (Product Owner / Manager)"},{value:"swe",label:"SWE (Software Engineer)"}])+'</div>';
-
-  s += '<div class="field"><div class="field-label">In one sentence, what does this bet do? '+tag("Anyone")+'</div>';
-  s += '<div class="field-hint">If you cannot say it in one sentence, the bet might be too vague to classify.</div>';
-  s += '<input type="text" data-field="summary" value="'+h(form.summary)+'" placeholder="e.g. Allow customers to customize push notification preferences"></div>';
-  return s;
-}
-
-function renderStepB(){
-  var s = '<div class="step-hint">We are not asking will something go wrong. We are asking: if it did, how bad would it be?</div>';
-
-  s += '<div class="field"><div class="field-label">Who will see or use what this bet produces? '+tag("POp")+'</div>';
-  s += '<div class="field-hint">Think about the end result. Who is on the receiving end?</div>';
-  s += sel("audience",[
-    {value:"",label:"Select..."},
-    {value:"internal",label:"Only our squad or other internal teams",ex:"e.g. internal dashboard, CI/CD improvement, monitoring tool"},
-    {value:"partners",label:"Internal teams + external partners or vendors",ex:"e.g. report shared with a partner bank, B2B API"},
-    {value:"customer",label:"Customers see or interact with it directly",ex:"e.g. a feature in the app, a notification, error message"},
-    {value:"public",label:"Publicly visible beyond our customer base",ex:"e.g. public API, open-source contribution, landing page"}
-  ])+'</div>';
-
-  s += '<div class="field"><div class="field-label">Does this bet touch anything regulated or audited? '+tag("POp")+'</div>';
-  s += '<div class="field-hint">Compliance, central bank requirements, data protection, audit trails.</div>';
-  s += sel("regulatory",[
-    {value:"",label:"Select..."},
-    {value:"no",label:"No regulatory, compliance, or audit implications"},
-    {value:"yes",label:"Yes, it touches regulated processes or auditable data",ex:"e.g. transaction reporting, KYC, credit decisioning, data retention"},
-    {value:"unsure",label:"Not sure, I need to check",ex:"Treated as Yes until confirmed otherwise"}
-  ])+'</div>';
-
-  s += '<div class="field"><div class="field-label">Does a bug in this bet cost real money? '+tag("Anyone")+'</div>';
-  s += '<div class="field-hint">Not waste engineering time — direct revenue, billing, or penalty impact?</div>';
-  s += sel("financial",[
-    {value:"",label:"Select..."},
-    {value:"none",label:"No, a bug wastes time but not money",ex:"e.g. broken internal tool slows the team down"},
-    {value:"indirect",label:"Indirectly, could lead to cost inefficiency",ex:"e.g. recommendation algo underperforms, wrong analytics"},
-    {value:"direct",label:"Directly, wrong amounts, broken payments, or penalties",ex:"e.g. pricing logic, billing calculations, SLA-bound services"}
-  ])+'</div>';
-
-  s += '<div class="field"><div class="field-label">If this breaks in production, how fast can we undo it? '+tag("SWE")+'</div>';
-  s += '<div class="field-hint">The realistic revert path, not the ideal one.</div>';
-  s += sel("rollback",[
-    {value:"",label:"Select..."},
-    {value:"flag",label:"Kill switch — flip a feature flag and it is gone",ex:"e.g. behind a feature flag, A/B test toggle"},
-    {value:"deploy",label:"Revert deploy — push previous version, minutes to hours",ex:"e.g. standard service deploy, config rollback"},
-    {value:"migration",label:"Complicated — need to migrate data back or fix state",ex:"e.g. database schema change, data backfill"},
-    {value:"irreversible",label:"Cannot fully undo it — some effects are permanent",ex:"e.g. sent notifications, processed transactions"}
-  ])+'</div>';
-  return s;
-}
-
-function renderStepC(){
-  var s = '<div class="step-hint">If we asked AI to do parts of this work, how easy would it be for an error to sneak past us?</div>';
-
-  s += '<div class="field"><div class="field-label">Have we built something like this before? '+tag("Anyone")+'</div>';
-  s += '<div class="field-hint">Think about the squad experience, not the industry.</div>';
-  s += sel("domain",[
-    {value:"",label:"Select..."},
-    {value:"familiar",label:"Yes, we have done this kind of thing multiple times",ex:"e.g. another CRUD endpoint, familiar pipeline, standard UI"},
-    {value:"mostly",label:"Mostly — similar territory but with tricky parts",ex:"e.g. familiar domain but new edge cases"},
-    {value:"new",label:"No — genuinely new ground for the squad",ex:"e.g. new language, unfamiliar domain, first time with this system"}
-  ])+'</div>';
-
-  s += '<div class="field"><div class="field-label">How clear are the requirements right now? '+tag("POp")+'</div>';
-  s += '<div class="field-hint">AI works best when it knows exactly what done looks like.</div>';
-  s += sel("spec",[
-    {value:"",label:"Select..."},
-    {value:"clear",label:"Crystal clear — I could write acceptance tests right now",ex:"e.g. detailed user stories, wireframes, edge cases documented"},
-    {value:"mostly",label:"Mostly clear — happy path defined, edge cases fuzzy",ex:"e.g. main flow specced, error handling TBD"},
-    {value:"exploring",label:"Still figuring it out — exploring solutions",ex:"e.g. discovery phase, multiple approaches, outcome unclear"}
-  ])+'</div>';
-
-  s += '<div class="field"><div class="field-label">Can we write automated tests that catch mistakes? '+tag("SWE")+'</div>';
-  s += '<div class="field-hint">Whether errors are detectable, not current coverage.</div>';
-  s += sel("test",[
-    {value:"",label:"Select..."},
-    {value:"yes",label:"Yes — inputs and expected outputs are well-defined",ex:"e.g. API contract tests, unit tests with known answers"},
-    {value:"partial",label:"Partially — main paths testable, some behavior hard to pin",ex:"e.g. data transforms testable but UI is subjective"},
-    {value:"no",label:"Not really — you would have to run it and eyeball it",ex:"e.g. ML model output quality, complex visual layouts"}
-  ])+'</div>';
-
-  s += '<div class="field important-marker"><div class="field-label">If AI writes code for this, could you spot a mistake by reading it? '+tag("Anyone")+'</div>';
-  s += '<div class="field-hint">Most important question in the assessment. Be honest.</div>';
-  s += sel("verify",[
-    {value:"",label:"Select..."},
-    {value:"obvious",label:"Yes — right and wrong are obvious on inspection",ex:"e.g. config file, straightforward function, traceable SQL"},
-    {value:"careful",label:"Probably — but I would need to think carefully",ex:"e.g. business logic with conditions, API with auth flows"},
-    {value:"run_it",label:"Honestly, I would have to run it and see",ex:"e.g. concurrency logic, state machines, ML pipelines"}
-  ])+'</div>';
-  return s;
-}
-
-function renderStepD(){
-  var s = '<div class="step-hint">Optional. Does not affect risk tier. Helps target AI at the right activities after classification.</div>';
-  s += '<div class="field"><div class="field-label">Which parts feel repetitive or mechanical? '+tag("Anyone")+'</div>';
-  var opts = ["Summarizing research or data into insights","Writing boilerplate code (endpoints, models, migrations)","Generating test cases from specs","Writing or updating documentation","Creating draft specs or acceptance criteria","Code review prep (linting, pattern checks)"];
-  s += '<div class="cb-group">';
-  for(var i=0;i<opts.length;i++){
-    var ck = form.opportunities.indexOf(opts[i])>=0;
-    s += '<label class="cb-item'+(ck?" checked":"")+'"><input type="checkbox" data-opp="'+i+'"'+(ck?" checked":"")+'>'+h(opts[i])+'</label>';
-  }
-  s += '</div></div>';
-  s += '<div class="field"><div class="field-label">Biggest time sink in this bet today? '+tag("Anyone")+'</div>';
-  s += '<input type="text" data-field="timeSink" value="'+h(form.timeSink)+'" placeholder="e.g. Writing and maintaining test fixtures"></div>';
-  return s;
-}
-
-function renderStepE(){
-  var s = '<div class="step-hint">Deal-breakers that override everything else. Think of these as circuit breakers.</div>';
-
-  s += '<div class="field"><div class="field-label">Will AI tools see or generate customer data / PII? '+tag("Anyone")+'</div>';
-  s += '<div class="field-hint">Does the AI itself touch sensitive data while helping you build?</div>';
-  s += sel("pii",[
-    {value:"",label:"Select..."},
-    {value:"no",label:"No — AI works only with synthetic or non-sensitive data"},
-    {value:"yes",label:"Yes — AI will interact with real customer data or PII"}
-  ]);
-  if(form.pii==="yes") s += '<div class="flag-warn flag-red">Forces High risk regardless of other answers.</div>';
-  s += '</div>';
-
-  s += '<div class="field"><div class="field-label">Contractually committed to deliverables or SLAs? '+tag("POp")+'</div>';
-  s += '<div class="field-hint">Partner contracts, vendor agreements, regulatory deadlines.</div>';
-  s += sel("contractual",[
-    {value:"",label:"Select..."},
-    {value:"no",label:"No — internally driven with internal deadlines"},
-    {value:"yes",label:"Yes — external parties have contractual expectations"}
-  ]);
-  if(form.contractual==="yes") s += '<div class="flag-warn flag-red">Forces High risk regardless of other answers.</div>';
-  s += '</div>';
-
-  s += '<div class="field"><div class="field-label">First time the squad uses AI for this type of work? '+tag("Anyone")+'</div>';
-  s += '<div class="field-hint">For this specific kind of task, not first time using AI ever.</div>';
-  s += sel("firstTime",[
-    {value:"",label:"Select..."},
-    {value:"no",label:"No — we have done this type of AI-assisted work before"},
-    {value:"yes",label:"Yes — this is new territory for us with AI"}
-  ]);
-  if(form.firstTime==="yes") s += '<div class="flag-warn flag-amber">Bumps risk up one level.</div>';
-  s += '</div>';
-  return s;
-}
-
-function renderStepF(){
-  var s = '<div class="step-hint">Uncertainty is information, not a failure. If you were guessing, it is better to say so.</div>';
-
-  s += '<div class="field"><div class="field-label">How confident are you in the answers above? '+tag("Anyone")+'</div>';
-  s += sel("confidence",[
-    {value:"",label:"Select..."},
-    {value:"confident",label:"Confident — I know this bet well enough"},
-    {value:"mostly",label:"Mostly confident — 1-2 educated guesses"},
-    {value:"guessing",label:"I was guessing on some key answers",ex:"Bumps risk up one level. Protects you, not punishes you."}
-  ])+'</div>';
-
-  s += '<div class="field"><div class="field-label">What are you least sure about? '+tag("Anyone")+'</div>';
-  s += '<div class="field-hint">Becomes the agenda for the classification ceremony.</div>';
-  s += '<textarea data-field="uncertaintyNotes" placeholder="e.g. Not sure if notification preferences fall under LGPD data subject rights...">'+h(form.uncertaintyNotes)+'</textarea></div>';
-  return s;
-}
-
-function bindInputs(){
-  document.querySelectorAll("[data-field]").forEach(function(el){
-    var f = el.getAttribute("data-field");
-    if(el.tagName==="SELECT"){
-      el.addEventListener("change",function(){
-        form[f] = el.value;
-        render();
-      });
-    } else {
-      el.addEventListener("input",function(){
-        form[f] = el.value;
-        validateStep();
-      });
-    }
-  });
-  var oppLabels = ["Summarizing research or data into insights","Writing boilerplate code (endpoints, models, migrations)","Generating test cases from specs","Writing or updating documentation","Creating draft specs or acceptance criteria","Code review prep (linting, pattern checks)"];
-  document.querySelectorAll("[data-opp]").forEach(function(el){
-    el.addEventListener("change",function(){
-      var label = oppLabels[parseInt(el.getAttribute("data-opp"))];
-      if(el.checked){form.opportunities.push(label);}
-      else{form.opportunities=form.opportunities.filter(function(x){return x!==label;});}
-      render();
-    });
-  });
-}
-
-function validateStep(){
-  var valid = true;
-  if(step===0) valid = form.betName&&form.role&&form.summary;
-  else if(step===1) valid = form.audience&&form.regulatory&&form.financial&&form.rollback;
-  else if(step===2) valid = form.domain&&form.spec&&form.test&&form.verify;
-  else if(step===3) valid = true;
-  else if(step===4) valid = form.pii&&form.contractual&&form.firstTime;
-  else if(step===5) valid = form.confidence;
-  var btn = $("btn-next")||$("btn-score");
-  if(btn) btn.disabled = !valid;
-}
-
-function goNext(){if(step<5){step++;render();window.scrollTo(0,0);}}
-function goBack(){if(step>0){step--;render();window.scrollTo(0,0);}}
-
-function doScore(){
-  result = computeScore();
-  phase = "result";
+function h(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function resetState(){
+  S={phase:"landing",mode:null,step:0,role:"",form:{betName:"",summary:"",role:"",audience:"",regulatory:"",financial:"",rollback:"",spec:"",domain:"",test:"",verify:"",pii:"",contractual:"",firstTime:"",confidence:"",uncertaintyNotes:"",opportunities:[],timeSink:""},partner:null,searchQuery:"",searchResults:[],selectedPartner:null,result:null,error:null,saving:false};
   render();
-  window.scrollTo(0,0);
 }
 
-function computeScore(){
-  var r = {tier:"",reasoning:[],agenda:[],flags:[],modifiers:[],probScore:0,probLabel:"",impactCol:"",baseTier:""};
-
-  if(form.pii==="yes"){r.tier="High";r.reasoning.push("PII/sensitive data flag triggered: AI tools will interact with real customer data during this bet. This forces High risk regardless of all other inputs.");r.flags.push("PII exposure requires data handling review before AI tooling is configured.");r.agenda.push("Confirm exactly which data AI will access and what safeguards are in place.");return finalizeResult(r);}
-  if(form.contractual==="yes"){r.tier="High";r.reasoning.push("Contractual obligation flag triggered: external parties have expectations on the deliverables. This forces High risk regardless of all other inputs.");r.flags.push("Squad Lead should review contractual terms for AI-related restrictions.");r.agenda.push("Review whether contracts impose restrictions on AI-assisted development.");return finalizeResult(r);}
-
-  var colRank={Operational:1,Financial:2,Reputational:3,Regulatory:4};
-  var maxCol = 0;
-  var colReasons = [];
-
-  var auMap = {internal:"Operational",partners:"Financial",customer:"Reputational",public:"Reputational"};
-  var auCol = auMap[form.audience]||"Operational";
-  maxCol = Math.max(maxCol, colRank[auCol]);
-  colReasons.push("Audience is " + form.audience + ", mapping to " + auCol + " impact.");
-
-  if(form.regulatory==="yes"||form.regulatory==="unsure"){
-    maxCol = Math.max(maxCol, colRank["Regulatory"]);
-    colReasons.push("Regulatory touchpoint " + (form.regulatory==="unsure"?"is uncertain (treated as yes)":"confirmed") + ", escalating to Regulatory impact.");
-  }
-
-  if(form.financial==="direct"){maxCol=Math.max(maxCol,colRank["Financial"]);colReasons.push("Direct financial exposure (billing/pricing/payments).");}
-  else if(form.financial==="indirect"){maxCol=Math.max(maxCol,colRank["Financial"]);colReasons.push("Indirect financial exposure (cost inefficiency).");}
-
-  if(form.rollback==="migration"){maxCol=Math.min(4,maxCol+1);colReasons.push("Rollback requires data migration, amplifying impact by +1.");}
-  else if(form.rollback==="irreversible"){maxCol=Math.min(4,maxCol+2);colReasons.push("Rollback is irreversible, amplifying impact by +2.");}
-
-  var colNames = {1:"Operational",2:"Financial",3:"Reputational",4:"Regulatory"};
-  r.impactCol = colNames[maxCol];
-
-  var vMap = {obvious:1,careful:2,run_it:3};
-  var dMap = {familiar:1,mostly:2,new:3};
-  var sMap = {clear:1,mostly:2,exploring:3};
-  var tMap = {yes:1,partial:2,no:3};
-
-  var vScore = vMap[form.verify]||2;
-  var dScore = dMap[form.domain]||2;
-  var sScore = sMap[form.spec]||2;
-  var tScore = tMap[form.test]||2;
-  var avg = vScore*0.35 + dScore*0.25 + sScore*0.20 + tScore*0.20;
-  r.probScore = Math.round(avg*100)/100;
-
-  if(avg<=1.5) r.probLabel = "Low";
-  else if(avg<=2.2) r.probLabel = "Medium";
-  else r.probLabel = "High";
-
-  var matrix = {
-    "Low-Operational":"Low","Low-Financial":"Low","Low-Reputational":"Mid","Low-Regulatory":"Mid",
-    "Medium-Operational":"Low","Medium-Financial":"Mid","Medium-Reputational":"High","Medium-Regulatory":"High",
-    "High-Operational":"Mid","High-Financial":"High","High-Reputational":"High","High-Regulatory":"High"
-  };
-  r.baseTier = matrix[r.probLabel+"-"+r.impactCol]||"Mid";
-  var tierNum = {Low:1,Mid:2,High:3};
-  var tierName = {1:"Low",2:"Mid",3:"High"};
-  var current = tierNum[r.baseTier];
-
-  if(form.firstTime==="yes"){
-    var bumped = Math.min(3,current+1);
-    if(bumped!==current){r.modifiers.push("First-time AI pattern: bumped "+tierName[current]+" to "+tierName[bumped]);current=bumped;}
-    else r.modifiers.push("First-time AI pattern: already High, no change.");
-  }
-  if(form.confidence==="guessing"){
-    var bumped2 = Math.min(3,current+1);
-    if(bumped2!==current){r.modifiers.push("Low confidence: bumped "+tierName[current]+" to "+tierName[bumped2]);current=bumped2;}
-    else r.modifiers.push("Low confidence: already High, no change.");
-  }
-  r.tier = tierName[current];
-
-  r.reasoning.push("Impact driven by "+r.impactCol.toLowerCase()+" exposure ("+colReasons[0]+").");
-  r.reasoning.push("AI defect probability is "+r.probLabel.toLowerCase()+" (score "+r.probScore+"/3.00). " + (vScore>=2?"Output verifiability is the primary driver: a reviewer would need to "+(vScore===3?"run the code":"think carefully")+" to spot AI errors.":"Output is straightforward to verify on inspection."));
-  r.reasoning.push("Matrix lookup ["+r.probLabel+" probability x "+r.impactCol+" impact] gives base tier: "+r.baseTier+".");
-  if(r.modifiers.length>0) r.reasoning.push("Modifiers applied: "+r.modifiers.join(" "));
-
-  if(form.regulatory==="unsure") r.agenda.push("Confirm regulatory status before classification is final. Currently treated as regulated.");
-  if(form.role==="pop"&&(form.rollback==="flag"||form.rollback==="deploy")&&form.test==="yes") r.agenda.push("POp assessed: SWE should confirm rollback complexity and test coverage.");
-  else if(form.role==="swe"&&form.audience==="internal"&&form.regulatory==="no") r.agenda.push("SWE assessed: POp should confirm audience reach and regulatory exposure.");
-  if(form.confidence==="guessing"||form.confidence==="mostly") r.agenda.push("Assessor flagged uncertainty: review the notes before confirming tier.");
-  if(form.uncertaintyNotes) r.agenda.push("Specific uncertainty to discuss: "+form.uncertaintyNotes);
-  if(vScore===3) r.agenda.push("AI output is hard to verify by inspection. Discuss how to structure reviews for this bet.");
-  if(form.spec==="exploring") r.agenda.push("Requirements are still exploratory. Consider whether AI involvement should wait until Define phase firms up.");
-
-  if(r.agenda.length===0) r.agenda.push("No specific flags. Standard ceremony review: confirm tier and discuss AI autonomy levels per phase.");
-
-  return finalizeResult(r);
+// ============================================================
+// API
+// ============================================================
+function apiCall(data,cb){
+  if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({error:"API URL not configured. See setup guide."});return;}
+  fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(data),redirect:"follow"}).then(function(r){return r.text()}).then(function(t){
+    try{cb(JSON.parse(t))}catch(e){cb({error:"Invalid response from server"})}
+  }).catch(function(e){cb({error:"Network error: "+e.message})});
+}
+function apiSearch(query,cb){
+  if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({results:[]});return;}
+  fetch(API_URL+"?action=search&query="+encodeURIComponent(query),{redirect:"follow"}).then(function(r){return r.text()}).then(function(t){
+    try{cb(JSON.parse(t))}catch(e){cb({results:[]})}
+  }).catch(function(){cb({results:[]})});
 }
 
-function finalizeResult(r){
-  var levels = {
-    High:{Discover:"L0-L1 (AI assists, never drafts)",Define:"L0-L1 (AI suggests, human authors)",Develop:"L2 max (AI drafts, line-by-line review)",Deliver:"L1 (AI supports, human executes)"},
-    Mid:{Discover:"L2 (AI drafts, human validates)",Define:"L1-L2 (AI challenges, drafts specs)",Develop:"L2-L3 (AI generates, PR-level review)",Deliver:"L2-L3 (AI executes checklist, human reviews exceptions)"},
-    Low:{Discover:"L2-L3 (AI drives, human spot-checks)",Define:"L2-L3 (AI generates, human reviews)",Develop:"L3 (AI implements, PR-level review)",Deliver:"L3 (AI executes, human reviews failures only)"}
-  };
-  r.levels = levels[r.tier]||levels["Mid"];
-  r.range = r.tier==="High"?"L0-L2 (Human-led, AI assists)":r.tier==="Mid"?"L1-L3 (AI drafts, human validates)":"L2-L3 (AI executes, human spot-checks)";
-  return r;
+// ============================================================
+// SCORING ENGINE (same as v1)
+// ============================================================
+function computeScore(f){
+  var r={tier:"",reasoning:[],agenda:[],flags:[],modifiers:[],probScore:0,probLabel:"",impactCol:"",baseTier:"",levels:{}};
+  if(f.pii==="yes"){r.tier="High";r.reasoning.push("PII flag triggered: AI tools will interact with real customer data. Forces High risk.");r.flags.push("PII exposure requires data handling review.");r.agenda.push("Confirm data safeguards before AI tooling is configured.");return fin(r);}
+  if(f.contractual==="yes"){r.tier="High";r.reasoning.push("Contractual obligation flag: external deliverable expectations. Forces High risk.");r.flags.push("Review contractual terms for AI-related restrictions.");r.agenda.push("Check if contracts restrict AI-assisted development.");return fin(r);}
+  var colR={Operational:1,Financial:2,Reputational:3,Regulatory:4},maxC=0,cR=[];
+  var auM={internal:"Operational",partners:"Financial",customer:"Reputational",public:"Reputational"};
+  if(f.audience){var ac=auM[f.audience]||"Operational";maxC=Math.max(maxC,colR[ac]);cR.push("Audience ("+f.audience+") maps to "+ac+".");}
+  if(f.regulatory==="yes"||f.regulatory==="unsure"){maxC=Math.max(maxC,colR.Regulatory);cR.push("Regulatory "+(f.regulatory==="unsure"?"uncertain (treated as yes)":"confirmed")+".");}
+  if(f.financial==="direct"){maxC=Math.max(maxC,colR.Financial);cR.push("Direct financial exposure.");}
+  else if(f.financial==="indirect"){maxC=Math.max(maxC,colR.Financial);cR.push("Indirect financial exposure.");}
+  if(f.rollback==="migration"){maxC=Math.min(4,maxC+1);cR.push("Rollback requires migration (+1).");}
+  else if(f.rollback==="irreversible"){maxC=Math.min(4,maxC+2);cR.push("Rollback irreversible (+2).");}
+  if(maxC===0)maxC=1;
+  var cN={1:"Operational",2:"Financial",3:"Reputational",4:"Regulatory"};r.impactCol=cN[maxC];
+  var vM={obvious:1,careful:2,run_it:3},dM={familiar:1,mostly:2,new:3},sM={clear:1,mostly:2,exploring:3},tM={yes:1,partial:2,no:3};
+  var vS=vM[f.verify]||2,dS=dM[f.domain]||2,sS=sM[f.spec]||2,tS=tM[f.test]||2;
+  var avg=vS*.35+dS*.25+sS*.2+tS*.2;r.probScore=Math.round(avg*100)/100;
+  r.probLabel=avg<=1.5?"Low":avg<=2.2?"Medium":"High";
+  var mx={"Low-Operational":"Low","Low-Financial":"Low","Low-Reputational":"Mid","Low-Regulatory":"Mid","Medium-Operational":"Low","Medium-Financial":"Mid","Medium-Reputational":"High","Medium-Regulatory":"High","High-Operational":"Mid","High-Financial":"High","High-Reputational":"High","High-Regulatory":"High"};
+  r.baseTier=mx[r.probLabel+"-"+r.impactCol]||"Mid";
+  var tN={Low:1,Mid:2,High:3},tL={1:"Low",2:"Mid",3:"High"},cur=tN[r.baseTier];
+  if(f.firstTime==="yes"){var b=Math.min(3,cur+1);if(b!==cur){r.modifiers.push("First-time pattern: "+tL[cur]+" to "+tL[b]);cur=b;}}
+  if(f.confidence==="guessing"){var b2=Math.min(3,cur+1);if(b2!==cur){r.modifiers.push("Low confidence: "+tL[cur]+" to "+tL[b2]);cur=b2;}}
+  r.tier=tL[cur];
+  r.reasoning.push("Impact: "+r.impactCol+" ("+cR.join(" ")+")");
+  r.reasoning.push("Probability: "+r.probLabel+" ("+r.probScore+"/3.00). "+(vS>=2?"Verifiability is key driver.":"Output is straightforward to verify."));
+  r.reasoning.push("Matrix ["+r.probLabel+" x "+r.impactCol+"] = base tier "+r.baseTier+".");
+  if(r.modifiers.length)r.reasoning.push("Modifiers: "+r.modifiers.join(" "));
+  if(f.regulatory==="unsure")r.agenda.push("Confirm regulatory status before classification is final.");
+  if(f.confidence==="guessing"||f.confidence==="mostly")r.agenda.push("Review uncertainty notes before confirming tier.");
+  if(f.uncertaintyNotes)r.agenda.push("Uncertainty: "+f.uncertaintyNotes);
+  if(vS===3)r.agenda.push("AI output is hard to verify. Discuss review strategy.");
+  if(f.spec==="exploring")r.agenda.push("Requirements still exploratory. Consider deferring AI until Define firms up.");
+  if(!r.agenda.length)r.agenda.push("No flags. Standard review: confirm tier and AI autonomy levels.");
+  return fin(r);
+}
+function fin(r){
+  var lv={High:{Discover:"L0-L1 (AI assists, never drafts)",Define:"L0-L1 (AI suggests, human authors)",Develop:"L2 max (AI drafts, line-by-line review)",Deliver:"L1 (AI supports, human executes)"},Mid:{Discover:"L2 (AI drafts, human validates)",Define:"L1-L2 (AI challenges, drafts specs)",Develop:"L2-L3 (AI generates, PR-level review)",Deliver:"L2-L3 (AI executes checklist, human reviews)"},Low:{Discover:"L2-L3 (AI drives, human spot-checks)",Define:"L2-L3 (AI generates, human reviews)",Develop:"L3 (AI implements, PR-level review)",Deliver:"L3 (AI executes, human reviews failures)"}};
+  r.levels=lv[r.tier]||lv.Mid;r.range=r.tier==="High"?"L0-L2 (Human-led)":r.tier==="Mid"?"L1-L3 (AI drafts, human validates)":"L2-L3 (AI executes, human spot-checks)";return r;
 }
 
-function renderResult(app){
-  var t = result.tier.toLowerCase();
-  var html = '';
-  html += '<div class="header"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>';
-  html += '<h1>AI risk assessment</h1><p>OpsDefense methodology v1.0</p></div>';
-
-  html += '<div class="result-card result-'+t+'">';
-  html += '<div class="result-chip chip-'+t+'">Classification</div>';
-  html += '<div class="result-tier tier-'+t+'">'+result.tier+' risk</div>';
-  html += '<div class="result-name rname-'+t+'">'+h(form.betName)+'</div>';
-  html += '<div class="result-reasoning rr-'+t+'">'+result.reasoning.join("<br><br>")+'</div>';
-  html += '</div>';
-
-  html += '<div class="metrics">';
-  html += '<div class="metric"><div class="metric-label">Impact</div><div class="metric-value">'+result.impactCol+'</div></div>';
-  html += '<div class="metric"><div class="metric-label">Probability</div><div class="metric-value">'+result.probLabel+'</div></div>';
-  html += '<div class="metric"><div class="metric-label">Score</div><div class="metric-value">'+result.probScore.toFixed(2)+'/3</div></div>';
-  html += '</div>';
-
-  if(result.modifiers.length>0){
-    html += '<div class="section-block"><div class="section-block-title">Modifiers applied</div>';
-    for(var i=0;i<result.modifiers.length;i++) html += '<div class="modifier-item">'+h(result.modifiers[i])+'</div>';
-    html += '</div>';
-  }
-
-  html += '<div class="section-block"><div class="section-block-title">Ceremony discussion agenda</div>';
-  for(var j=0;j<result.agenda.length;j++) html += '<div class="agenda-item">'+h(result.agenda[j])+'</div>';
-  html += '</div>';
-
-  if(result.flags.length>0){
-    html += '<div class="section-block"><div class="section-block-title">Flags for squad lead</div>';
-    for(var k=0;k<result.flags.length;k++) html += '<div class="flag-item flag-item-danger">'+h(result.flags[k])+'</div>';
-    html += '</div>';
-  }
-
-  html += '<div class="section-block"><div class="section-block-title">AI autonomy levels for this bet</div>';
-  html += '<div class="autonomy-grid">';
-  html += '<div class="autonomy-phase">Discover</div><div class="autonomy-level">'+result.levels.Discover+'</div>';
-  html += '<div class="autonomy-phase">Define</div><div class="autonomy-level">'+result.levels.Define+'</div>';
-  html += '<div class="autonomy-phase">Develop</div><div class="autonomy-level">'+result.levels.Develop+'</div>';
-  html += '<div class="autonomy-phase">Deliver</div><div class="autonomy-level">'+result.levels.Deliver+'</div>';
-  html += '</div></div>';
-
-  html += '<div class="export-section">';
-  html += '<div class="export-header"><div class="export-title">Export for foundational doc</div><button class="btn-copy" id="btn-copy" onclick="doCopy()">Copy</button></div>';
-  html += '<div class="export-box" id="export-box">'+h(generateExport())+'</div>';
-  html += '</div>';
-
-  html += '<button class="btn btn-back btn-edit" onclick="editForm()">Edit assessment</button>';
-  app.innerHTML = html;
+// ============================================================
+// RENDER
+// ============================================================
+function render(){$("app").innerHTML=renderPage();bindAll();}
+function renderPage(){
+  var o='<div class="header"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h1>AI risk assessment</h1><p class="sub">OpsDefense v2.0 — Split assessment</p></div>';
+  if(S.phase==="landing")return o+renderLanding();
+  if(S.phase==="loading")return o+renderLoading();
+  if(S.phase==="result")return o+renderResult();
+  return o+renderWizard();
 }
 
-function generateExport(){
-  var d = new Date().toISOString().split("T")[0];
-  var sep = "=======================================================";
-  var ro = form.role==="pop"?"POp":"SWE";
+function renderLanding(){
+  return '<div class="mode-grid"><div class="mode-card" onclick="startMode(\'new\')"><div class="mode-badge mb-purple">Recommended</div><h3>Start new assessment</h3><p>I am the first to assess this bet. My partner will add their lens later.</p></div><div class="mode-card" onclick="startMode(\'continue\')"><div class="mode-badge mb-teal">Continue</div><h3>Add my lens to a partner\'s assessment</h3><p>My partner already started. I will search for the bet and add my perspective.</p></div><div class="mode-card" onclick="startMode(\'solo\')"><div class="mode-badge mb-gray">Solo</div><h3>Solo assessment</h3><p>I will answer all questions myself. Flagged as single-lens in the export.</p></div></div><p style="font-size:12px;color:var(--tx3);text-align:center">Split assessment is recommended. Each role answers only their expertise area.</p>';
+}
+
+function renderLoading(){return '<div class="loading-center"><div class="spinner"></div><p style="margin-top:16px;font-size:14px;font-weight:500">Saving to assessment registry...</p><p style="font-size:13px;color:var(--tx3)">Writing to Google Sheets. This may take a few seconds on first load.</p></div>';}
+
+// ============================================================
+// WIZARD RENDERING
+// ============================================================
+function renderWizard(){
+  var totalSteps=4,o='';
+  o+='<div class="progress">';for(var i=0;i<totalSteps;i++){o+='<div class="pbar '+(i<S.step?"done":i===S.step?"active":"")+'"></div>';}o+='</div>';
+  o+='<div class="step-num">Step '+(S.step+1)+' of '+totalSteps+'</div>';
+  if(S.mode==="new")o+=renderNewStep();
+  else if(S.mode==="continue")o+=renderContinueStep();
+  else o+=renderSoloStep();
+  if(S.error)o+='<div class="error-box">'+h(S.error)+'</div>';
+  o+='<div class="btns">';
+  if(S.step>0)o+='<button class="btn btn-back" onclick="goBack()">Back</button>';
+  if(S.step<3)o+='<button class="btn btn-next" id="bn" onclick="goNext()">Next</button>';
+  else{
+    if(S.mode==="new")o+='<button class="btn btn-score" id="bn" onclick="saveNew()">Save and notify partner</button>';
+    else if(S.mode==="continue")o+='<button class="btn btn-score" id="bn" onclick="saveComplete()">Score merged assessment</button>';
+    else o+='<button class="btn btn-score" id="bn" onclick="saveSolo()">Score this bet</button>';
+  }
+  o+='</div>';
+  o+='<button class="btn-new" onclick="resetState()">Start over</button>';
+  return o;
+}
+
+// --- NEW PATH ---
+function renderNewStep(){
+  if(S.step===0)return renderBasics();
+  if(S.step===1)return renderMyLens();
+  if(S.step===2)return renderRedFlags();
+  return renderPreResult();
+}
+function renderBasics(){
+  var o='<div class="step-title">Bet basics</div><div class="step-hint">Shared fields that your partner will also see.</div>';
+  o+=field("Bet name","betName","Anyone","As it appears in your planning tools.","text","e.g. Notification preferences redesign");
+  o+='<div class="field"><div class="field-label">I am filling this out as a... '+tag("Anyone")+'</div><div class="field-hint">This determines which questions you answer.</div>'+sel("role",[["","Select..."],["POps","POps (Product Operations)"],["SWE","SWE (Software Engineer)"]])+'</div>';
+  o+=field("In one sentence, what does this bet do?","summary","Anyone","If you cannot say it in one sentence, the bet might be too vague to classify.","text","e.g. Allow customers to customize push notifications");
+  return o;
+}
+function renderMyLens(){
+  var r=S.form.role;
+  var o='<div class="step-title">Your lens'+(r?" ("+r+")":"")+'</div><div class="step-hint">'+(r==="POps"?"Product and business impact questions.":"Technical complexity and risk questions.")+'</div>';
+  if(r==="POps")o+=renderPopsFields();
+  else if(r==="SWE")o+=renderSweFields();
+  else o+='<p style="color:var(--tx3)">Go back and select your role first.</p>';
+  return o;
+}
+function renderPopsFields(){
+  var o='';
+  o+='<div class="field"><div class="field-label">Who will see what this bet produces? '+tag("POps")+'</div><div class="field-hint">Think about the end result. Who is on the receiving end?</div>'+selEx("audience",[["","Select..."],["internal","Only our squad or internal teams","e.g. internal dashboard, monitoring tool"],["partners","Internal + external partners","e.g. report shared with partner bank, B2B API"],["customer","Customers interact directly","e.g. app feature, notification, error message"],["public","Publicly visible","e.g. public API, landing page"]])+'</div>';
+  o+='<div class="field"><div class="field-label">Does this bet touch anything regulated? '+tag("POps")+'</div><div class="field-hint">Compliance, central bank, data protection, audit trails.</div>'+selEx("regulatory",[["","Select..."],["no","No regulatory implications"],["yes","Yes, touches regulated processes","e.g. transaction reporting, KYC, credit decisioning"],["unsure","Not sure, I need to check","Treated as Yes until confirmed"]])+'</div>';
+  o+='<div class="field"><div class="field-label">Does a bug cost real money? '+tag("POps")+'</div><div class="field-hint">Not waste time — direct revenue, billing, or penalty impact?</div>'+selEx("financial",[["","Select..."],["none","No, wastes time but not money","e.g. broken internal tool"],["indirect","Indirectly, cost inefficiency","e.g. recommendation algo underperforms"],["direct","Directly, wrong amounts or penalties","e.g. pricing logic, billing, SLA-bound"]])+'</div>';
+  o+='<div class="field"><div class="field-label">How clear are the requirements? '+tag("POps")+'</div><div class="field-hint">AI works best when it knows what done looks like.</div>'+selEx("spec",[["","Select..."],["clear","Crystal clear, could write tests now","e.g. detailed stories, wireframes, edge cases"],["mostly","Mostly clear, edge cases fuzzy","e.g. main flow specced, error handling TBD"],["exploring","Still figuring it out","e.g. discovery phase, multiple approaches"]])+'</div>';
+  return o;
+}
+function renderSweFields(){
+  var o='';
+  o+='<div class="field"><div class="field-label">If this breaks, how fast can we undo it? '+tag("SWE")+'</div><div class="field-hint">The realistic revert path.</div>'+selEx("rollback",[["","Select..."],["flag","Kill switch, feature flag","e.g. behind feature flag, A/B toggle"],["deploy","Revert deploy, minutes to hours","e.g. standard deploy, config rollback"],["migration","Complicated, data migration","e.g. schema change, data backfill"],["irreversible","Cannot fully undo it","e.g. sent notifications, processed transactions"]])+'</div>';
+  o+='<div class="field"><div class="field-label">Have we built something like this before? '+tag("SWE")+'</div><div class="field-hint">Squad experience, not industry.</div>'+selEx("domain",[["","Select..."],["familiar","Yes, done this multiple times","e.g. CRUD endpoint, familiar pipeline"],["mostly","Mostly, but tricky parts","e.g. familiar domain, new edge cases"],["new","No, new ground for us","e.g. new language, unfamiliar system"]])+'</div>';
+  o+='<div class="field"><div class="field-label">Can automated tests catch mistakes? '+tag("SWE")+'</div><div class="field-hint">Whether errors are detectable.</div>'+selEx("test",[["","Select..."],["yes","Yes, well-defined inputs/outputs","e.g. API contract tests, unit tests"],["partial","Partially, some behavior hard to pin","e.g. transforms testable but UI subjective"],["no","Not really, must eyeball it","e.g. ML output quality, complex layouts"]])+'</div>';
+  o+='<div class="field important-marker"><div class="field-label">Could you spot an AI mistake by reading? '+tag("SWE")+'</div><div class="field-hint">Most important question. Be honest.</div>'+selEx("verify",[["","Select..."],["obvious","Yes, obvious on inspection","e.g. config, straightforward function"],["careful","Probably, need to think carefully","e.g. business logic, auth flows"],["run_it","Must run it to know","e.g. concurrency, state machines, ML"]])+'</div>';
+  return o;
+}
+function renderRedFlags(){
+  var o='<div class="step-title">Red flags + confidence</div><div class="step-hint">Shared escalation triggers and your self-assessment.</div>';
+  o+='<div class="field"><div class="field-label">Will AI tools touch customer data / PII? '+tag("Anyone")+'</div><div class="field-hint">Does the AI itself access sensitive data while helping you build?</div>'+sel("pii",[["","Select..."],["no","No, synthetic or non-sensitive data only"],["yes","Yes, AI will interact with real PII"]]);
+  if(S.form.pii==="yes")o+='<div class="flag-warn flag-red">Forces High risk regardless of other answers.</div>';
+  o+='</div>';
+  o+='<div class="field"><div class="field-label">Contractually committed to deliverables? '+tag("Anyone")+'</div><div class="field-hint">Partner contracts, vendor agreements, regulatory deadlines.</div>'+sel("contractual",[["","Select..."],["no","No, internally driven"],["yes","Yes, external contractual expectations"]]);
+  if(S.form.contractual==="yes")o+='<div class="flag-warn flag-red">Forces High risk regardless of other answers.</div>';
+  o+='</div>';
+  o+='<div class="field"><div class="field-label">First time using AI for this type of work? '+tag("Anyone")+'</div>'+sel("firstTime",[["","Select..."],["no","No, done this AI-assisted work before"],["yes","Yes, new territory with AI"]]);
+  if(S.form.firstTime==="yes")o+='<div class="flag-warn flag-amber">Bumps risk up one level.</div>';
+  o+='</div>';
+  o+='<div class="field"><div class="field-label">How confident in your answers? '+tag("Anyone")+'</div>'+selEx("confidence",[["","Select..."],["confident","Confident, I know this bet well"],["mostly","Mostly, 1-2 educated guesses"],["guessing","Guessing on key answers","Bumps risk up one level"]])+'</div>';
+  o+='<div class="field"><div class="field-label">What are you least sure about?</div><div class="field-hint">Becomes the discussion agenda.</div><textarea data-field="uncertaintyNotes" placeholder="e.g. Not sure if preferences fall under LGPD...">'+h(S.form.uncertaintyNotes)+'</textarea></div>';
+  return o;
+}
+function renderPreResult(){
+  var merged=mergeForScore();var sc=computeScore(merged);
+  var t=sc.tier.toLowerCase();
+  var o='<div class="step-title">Preliminary result</div><div class="step-hint">Based on your lens only. Your partner will add their perspective to produce the merged score.</div>';
+  o+='<div class="result-card result-'+t+'"><div class="result-chip chip-'+t+'">Your preliminary tier</div><div class="result-tier tier-'+t+'">'+sc.tier+' risk</div><div class="result-name rname-'+t+'">'+h(S.form.betName)+'</div><div class="result-reasoning rr-'+t+'">'+sc.reasoning.join("<br><br>")+'</div></div>';
+  o+='<p style="font-size:13px;color:var(--tx3);margin-top:12px">Clicking <strong>Save and notify partner</strong> writes this to the assessment registry. Tell your partner to open the tool and search for "'+h(S.form.betName)+'".</p>';
+  S.form.preliminaryTier=sc.tier;
+  return o;
+}
+
+// --- CONTINUE PATH ---
+function renderContinueStep(){
+  if(S.step===0)return renderSearch();
+  if(S.step===1)return renderPartnerLocked();
+  if(S.step===2)return renderMyConfidence();
+  return renderMergedPreview();
+}
+function renderSearch(){
+  var o='<div class="step-title">Find your bet</div><div class="step-hint">Search for the bet your partner already assessed.</div>';
+  o+='<div class="field"><div class="field-label">Search by bet name</div><input type="text" id="searchBox" data-field="searchQuery" value="'+h(S.searchQuery)+'" placeholder="Start typing the bet name..."></div>';
+  if(S.searchResults.length){
+    o+='<div class="search-results">';
+    for(var i=0;i<S.searchResults.length;i++){
+      var r=S.searchResults[i];
+      o+='<div class="search-item" onclick="selectPartner('+i+')"><h4>'+h(r.betName)+'</h4><p>Started by '+h(r.firstRole)+' | '+h(r.summary)+'</p></div>';
+    }
+    o+='</div>';
+  } else if(S.searchQuery.length>=2){
+    o+='<p style="font-size:13px;color:var(--tx3);margin-top:12px">No pending assessments found for "'+h(S.searchQuery)+'". Your partner may not have saved yet, or the assessment is already complete.</p>';
+  }
+  if(S.selectedPartner){
+    var p=S.selectedPartner;
+    o+='<div style="margin-top:16px"><div class="locked-card"><div class="locked-label">Selected assessment</div>';
+    o+='<div class="locked-row"><span>Bet</span><span style="font-weight:500">'+h(p.betName)+'</span></div>';
+    o+='<div class="locked-row"><span>Summary</span><span>'+h(p.summary)+'</span></div>';
+    o+='<div class="locked-row"><span>Started by</span><span>'+h(p.firstRole)+'</span></div>';
+    o+='<div class="locked-row"><span>Preliminary tier</span><span style="font-weight:500">'+(p.popsTier||p.sweTier||"pending")+'</span></div>';
+    o+='</div></div>';
+    var myRole=p.firstRole==="POps"?"SWE":"POps";
+    S.form.role=myRole;S.form.betName=p.betName;S.form.summary=p.summary;
+    S.form.pii=p.pii||"";S.form.contractual=p.contractual||"";S.form.firstTime=p.firstTime||"";
+  }
+  return o;
+}
+function renderPartnerLocked(){
+  var p=S.selectedPartner;if(!p)return '<p>No partner data. Go back and select an assessment.</p>';
+  var myRole=S.form.role;
+  var o='<div class="step-title">Your lens ('+myRole+')</div>';
+  o+='<div class="locked-card"><div class="locked-label">Partner\'s answers ('+p.firstRole+') — read only</div>';
+  if(p.firstRole==="POps"){
+    o+='<div class="locked-row"><span>Audience</span><span>'+h(p.audience)+'</span></div>';
+    o+='<div class="locked-row"><span>Regulatory</span><span>'+h(p.regulatory)+'</span></div>';
+    o+='<div class="locked-row"><span>Financial</span><span>'+h(p.financial)+'</span></div>';
+    o+='<div class="locked-row"><span>Spec clarity</span><span>'+h(p.spec)+'</span></div>';
+  } else {
+    o+='<div class="locked-row"><span>Rollback</span><span>'+h(p.rollback)+'</span></div>';
+    o+='<div class="locked-row"><span>Domain</span><span>'+h(p.domain)+'</span></div>';
+    o+='<div class="locked-row"><span>Test coverage</span><span>'+h(p.test)+'</span></div>';
+    o+='<div class="locked-row"><span>Verifiability</span><span>'+h(p.verify)+'</span></div>';
+  }
+  o+='</div><div class="step-hint">Now fill your questions below.</div>';
+  if(myRole==="POps")o+=renderPopsFields();
+  else o+=renderSweFields();
+  return o;
+}
+function renderMyConfidence(){
+  var o='<div class="step-title">Your confidence</div><div class="step-hint">Red flags were set by your partner. Add your confidence and notes.</div>';
+  o+='<div class="locked-card"><div class="locked-label">Red flags (set by partner)</div>';
+  o+='<div class="locked-row"><span>PII</span><span>'+h(S.form.pii)+'</span></div>';
+  o+='<div class="locked-row"><span>Contractual</span><span>'+h(S.form.contractual)+'</span></div>';
+  o+='<div class="locked-row"><span>First time</span><span>'+h(S.form.firstTime)+'</span></div>';
+  o+='</div>';
+  o+='<div class="field"><div class="field-label">How confident in your answers? '+tag("Anyone")+'</div>'+selEx("confidence",[["","Select..."],["confident","Confident"],["mostly","Mostly, 1-2 guesses"],["guessing","Guessing on key answers","Bumps risk up one level"]])+'</div>';
+  o+='<div class="field"><div class="field-label">What are you least sure about?</div><textarea data-field="uncertaintyNotes" placeholder="e.g. Not sure about rollback complexity...">'+h(S.form.uncertaintyNotes)+'</textarea></div>';
+  return o;
+}
+function renderMergedPreview(){
+  var p=S.selectedPartner,full=mergeWithPartner();
+  var sc=computeScore(full);
+  var myLens=mergeForScore();var mySc=computeScore(myLens);
+  var partnerTier=p.popsTier||p.sweTier||"Mid";
+  var myTier=mySc.tier;
+  var match=partnerTier===myTier;
+  var t=sc.tier.toLowerCase();
+  var o='<div class="step-title">Merged result</div>';
+  o+='<div class="lens-compare"><div class="lens-card lens-pops"><h4>'+p.firstRole+' lens</h4><div class="tier-val">'+partnerTier+'</div></div><div class="lens-card lens-swe"><h4>'+S.form.role+' lens</h4><div class="tier-val">'+myTier+'</div></div></div>';
+  if(match)o+='<div class="match-badge">Both lenses agree — auto-confirmation eligible</div>';
+  else o+='<div class="divergence"><div class="divergence-title">Tiers diverge</div>A 15-minute sync call is recommended to align. The higher tier ('+sc.tier+') applies as default.</div>';
+  o+='<div class="result-card result-'+t+'"><div class="result-chip chip-'+t+'">Merged classification</div><div class="result-tier tier-'+t+'">'+sc.tier+' risk</div><div class="result-name rname-'+t+'">'+h(S.form.betName)+'</div><div class="result-reasoning rr-'+t+'">'+sc.reasoning.join("<br><br>")+'</div></div>';
+  S.result=sc;S.result.popsTier=partnerTier;S.result.sweTier=myTier;S.result.tiersMatch=match;
+  return o;
+}
+
+// --- SOLO PATH ---
+function renderSoloStep(){
+  if(S.step===0)return renderBasics();
+  if(S.step===1)return renderAllFields();
+  if(S.step===2)return renderRedFlags();
+  return renderSoloResult();
+}
+function renderAllFields(){
+  var o='<div class="step-title">All assessment questions</div><div class="step-hint">Solo mode: answer both product and technical questions.</div>';
+  o+=renderPopsFields()+renderSweFields();
+  return o;
+}
+function renderSoloResult(){
+  var merged=mergeForScore();var sc=computeScore(merged);S.result=sc;
+  var t=sc.tier.toLowerCase();
+  var o='<div class="solo-badge">Solo assessment — partner review recommended at confirmation</div>';
+  o+='<div class="result-card result-'+t+'"><div class="result-chip chip-'+t+'">Classification</div><div class="result-tier tier-'+t+'">'+sc.tier+' risk</div><div class="result-name rname-'+t+'">'+h(S.form.betName)+'</div><div class="result-reasoning rr-'+t+'">'+sc.reasoning.join("<br><br>")+'</div></div>';
+  return o;
+}
+
+// ============================================================
+// RESULT SCREEN
+// ============================================================
+function renderResult(){
+  var r=S.result;if(!r)return '<p>No result.</p>';
+  var t=r.tier.toLowerCase();
+  var o='';
+  if(S.mode==="continue"&&r.popsTier){
+    o+='<div class="lens-compare"><div class="lens-card lens-pops"><h4>'+((S.selectedPartner||{}).firstRole||"POps")+' lens</h4><div class="tier-val">'+(r.popsTier||"")+'</div></div><div class="lens-card lens-swe"><h4>'+S.form.role+' lens</h4><div class="tier-val">'+(r.sweTier||"")+'</div></div></div>';
+    if(r.tiersMatch)o+='<div class="match-badge">Both lenses agree — auto-confirmed</div>';
+    else o+='<div class="divergence"><div class="divergence-title">Tiers diverged</div>15-minute sync recommended. Higher tier applied.</div>';
+  }
+  if(S.mode==="solo")o+='<div class="solo-badge">Solo assessment — partner review recommended</div>';
+  o+='<div class="result-card result-'+t+'"><div class="result-chip chip-'+t+'">'+(S.mode==="continue"?"Merged":"")+'Classification</div><div class="result-tier tier-'+t+'">'+r.tier+' risk</div><div class="result-name rname-'+t+'">'+h(S.form.betName)+'</div><div class="result-reasoning rr-'+t+'">'+r.reasoning.join("<br><br>")+'</div></div>';
+  o+='<div class="metrics"><div class="metric"><div class="metric-label">Impact</div><div class="metric-value">'+r.impactCol+'</div></div><div class="metric"><div class="metric-label">Probability</div><div class="metric-value">'+r.probLabel+'</div></div><div class="metric"><div class="metric-label">Score</div><div class="metric-value">'+r.probScore.toFixed(2)+'/3</div></div></div>';
+  if(r.modifiers&&r.modifiers.length){o+='<div class="section-block"><div class="section-block-title">Modifiers</div>';for(var i=0;i<r.modifiers.length;i++)o+='<div class="modifier-item">'+h(r.modifiers[i])+'</div>';o+='</div>';}
+  o+='<div class="section-block"><div class="section-block-title">Ceremony agenda</div>';for(var j=0;j<r.agenda.length;j++)o+='<div class="agenda-item">'+h(r.agenda[j])+'</div>';o+='</div>';
+  if(r.flags&&r.flags.length){o+='<div class="section-block"><div class="section-block-title">Flags for Squad Lead</div>';for(var k=0;k<r.flags.length;k++)o+='<div class="flag-item">'+h(r.flags[k])+'</div>';o+='</div>';}
+  o+='<div class="section-block"><div class="section-block-title">AI autonomy levels</div><div class="autonomy-grid"><div class="autonomy-phase">Discover</div><div class="autonomy-level">'+r.levels.Discover+'</div><div class="autonomy-phase">Define</div><div class="autonomy-level">'+r.levels.Define+'</div><div class="autonomy-phase">Develop</div><div class="autonomy-level">'+r.levels.Develop+'</div><div class="autonomy-phase">Deliver</div><div class="autonomy-level">'+r.levels.Deliver+'</div></div></div>';
+  var exp=genExport();
+  o+='<div class="export-section"><div class="export-header"><div class="export-title">Export for foundational doc</div><button class="btn-copy" id="bcopy" onclick="doCopy()">Copy</button></div><div class="export-box" id="ebox">'+h(exp)+'</div></div>';
+  o+='<button class="btn-new" onclick="resetState()">Start new assessment</button>';
+  return o;
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function tag(t){return '<span class="tag tag-'+({POps:"pop",SWE:"swe"}[t]||"any")+'">'+t+'</span>';}
+function field(label,name,tg,hint,type,ph){
+  return '<div class="field"><div class="field-label">'+label+' '+tag(tg)+'</div>'+(hint?'<div class="field-hint">'+hint+'</div>':'')+'<input type="text" data-field="'+name+'" value="'+h(S.form[name])+'" placeholder="'+h(ph||"")+'"></div>';
+}
+function sel(name,opts){
+  var v=S.form[name],o='<select data-field="'+name+'">';
+  for(var i=0;i<opts.length;i++)o+='<option value="'+h(opts[i][0])+'"'+(opts[i][0]===v?' selected':'')+'>'+h(opts[i][1])+'</option>';
+  return o+'</select>';
+}
+function selEx(name,opts){
+  var v=S.form[name],o='<select data-field="'+name+'">';
+  for(var i=0;i<opts.length;i++)o+='<option value="'+h(opts[i][0])+'"'+(opts[i][0]===v?' selected':'')+'>'+h(opts[i][1])+'</option>';
+  o+='</select>';
+  for(var j=0;j<opts.length;j++){if(opts[j][0]===v&&opts[j][2])o+='<div class="example">'+h(opts[j][2])+'</div>';}
+  return o;
+}
+function mergeForScore(){
+  var f={};for(var k in S.form)f[k]=S.form[k];return f;
+}
+function mergeWithPartner(){
+  var f={};for(var k in S.form)f[k]=S.form[k];
+  if(S.selectedPartner){
+    var p=S.selectedPartner;
+    if(p.audience)f.audience=p.audience;if(p.regulatory)f.regulatory=p.regulatory;
+    if(p.financial)f.financial=p.financial;if(p.spec)f.spec=p.spec;
+    if(p.rollback)f.rollback=p.rollback;if(p.domain)f.domain=p.domain;
+    if(p.test)f.test=p.test;if(p.verify)f.verify=p.verify;
+    if(p.pii)f.pii=p.pii;if(p.contractual)f.contractual=p.contractual;
+    if(p.firstTime)f.firstTime=p.firstTime;
+  }
+  return f;
+}
+
+// ============================================================
+// EXPORT
+// ============================================================
+function genExport(){
+  var r=S.result,f=S.form,d=new Date().toISOString().split("T")[0],sep=Array(56).join("=");
   var auL={internal:"Internal only",partners:"Internal + partners",customer:"Customer-facing",public:"Public"};
   var reL={no:"No",yes:"Yes",unsure:"Unsure (treated as Yes)"};
   var fiL={none:"None",indirect:"Indirect",direct:"Direct"};
-  var roL={flag:"Feature flag (instant)",deploy:"Deploy revert",migration:"Data migration required",irreversible:"Irreversible"};
+  var roL={flag:"Feature flag",deploy:"Deploy revert",migration:"Data migration",irreversible:"Irreversible"};
   var doL={familiar:"Well-trodden",mostly:"Mostly familiar",new:"New territory"};
-  var spL={clear:"Crystal clear",mostly:"Mostly clear",exploring:"Still exploring"};
-  var teL={yes:"Deterministic tests possible",partial:"Partial coverage",no:"Hard to validate"};
-  var veL={obvious:"Obvious on inspection",careful:"Requires careful review",run_it:"Must run it to know"};
-  var coL={confident:"Confident",mostly:"Mostly confident",guessing:"Guessing on key fields"};
-
-  var lines = [
-    sep,"AI RISK ASSESSMENT -- "+(form.betName||"[Bet name]"),"Assessed: "+d+" | By: "+ro,sep,"",
-    "CLASSIFICATION: "+result.tier.toUpperCase()+" RISK","AI autonomy range: "+result.range,"",
-    "SCORING SUMMARY"
-  ];
-  for(var i=0;i<result.reasoning.length;i++) lines.push("  "+result.reasoning[i]);
-  lines.push("");
-  lines.push("KEY INPUTS");
-  lines.push("  Audience: "+(auL[form.audience]||"--"));
-  lines.push("  Regulatory: "+(reL[form.regulatory]||"--"));
-  lines.push("  Financial exposure: "+(fiL[form.financial]||"--"));
-  lines.push("  Rollback: "+(roL[form.rollback]||"--"));
-  lines.push("  Prior experience: "+(doL[form.domain]||"--"));
-  lines.push("  Requirements clarity: "+(spL[form.spec]||"--"));
-  lines.push("  Testability: "+(teL[form.test]||"--"));
-  lines.push("  Reviewer can spot errors: "+(veL[form.verify]||"--"));
-  lines.push("");
-  lines.push("RED FLAGS");
-  lines.push("  PII in AI workflow: "+(form.pii==="yes"?"YES -- TRIGGERED":"No"));
-  lines.push("  Contractual obligations: "+(form.contractual==="yes"?"YES -- TRIGGERED":"No"));
-  lines.push("  First-time AI pattern: "+(form.firstTime==="yes"?"Yes -- +1 tier bump":"No"));
-  lines.push("");
-  lines.push("CONFIDENCE: "+(coL[form.confidence]||"--"));
-  lines.push("UNCERTAINTY NOTES: "+(form.uncertaintyNotes||"None"));
-  lines.push("");
-  lines.push("CEREMONY NOTES (to be filled at ceremony)");
-  lines.push("  Attendees: ___");
-  lines.push("  Decision: ___");
-  lines.push("  Action items:");
-  lines.push("  - ___");
-  lines.push("  - ___");
-  lines.push("");
-  lines.push("AI AUTONOMY LEVELS FOR THIS BET");
-  lines.push("  Discover: "+result.levels.Discover);
-  lines.push("  Define:   "+result.levels.Define);
-  lines.push("  Develop:  "+result.levels.Develop);
-  lines.push("  Deliver:  "+result.levels.Deliver);
-  lines.push("");
-  lines.push(sep);
-  lines.push("Methodology: OpsDefense AI-Augmented Delivery v1.0");
-  lines.push("Scoring: v1 (verifiability 35%, domain 25%, spec 20%, testability 20%)");
-  lines.push(sep);
+  var spL={clear:"Crystal clear",mostly:"Mostly clear",exploring:"Exploring"};
+  var teL={yes:"Deterministic",partial:"Partial",no:"Hard to validate"};
+  var veL={obvious:"Obvious",careful:"Careful review",run_it:"Must run it"};
+  var full=S.mode==="continue"?mergeWithPartner():f;
+  var mode=S.mode==="solo"?"SOLO":"SPLIT ("+((S.selectedPartner||{}).firstRole||f.role)+" + "+(S.mode==="continue"?f.role:"partner pending")+")";
+  var lines=[sep,"AI RISK ASSESSMENT -- "+(f.betName||"[Bet name]"),"Assessed: "+d+" | Mode: "+mode,sep,"","CLASSIFICATION: "+r.tier.toUpperCase()+" RISK","AI autonomy range: "+r.range,"","SCORING SUMMARY"];
+  for(var i=0;i<r.reasoning.length;i++)lines.push("  "+r.reasoning[i]);
+  lines.push("","KEY INPUTS","  Audience: "+(auL[full.audience]||"--"),"  Regulatory: "+(reL[full.regulatory]||"--"),"  Financial: "+(fiL[full.financial]||"--"),"  Rollback: "+(roL[full.rollback]||"--"),"  Domain: "+(doL[full.domain]||"--"),"  Spec: "+(spL[full.spec]||"--"),"  Testability: "+(teL[full.test]||"--"),"  Verifiability: "+(veL[full.verify]||"--"));
+  lines.push("","RED FLAGS","  PII: "+(full.pii==="yes"?"YES TRIGGERED":"No"),"  Contractual: "+(full.contractual==="yes"?"YES TRIGGERED":"No"),"  First-time: "+(full.firstTime==="yes"?"Yes (+1)":"No"));
+  if(S.mode==="continue"&&r.popsTier)lines.push("","DUAL LENS","  POps tier: "+(r.popsTier||"--"),"  SWE tier: "+(r.sweTier||"--"),"  Match: "+(r.tiersMatch?"YES":"NO"));
+  lines.push("","CONFIDENCE: "+(f.confidence||"--"),"UNCERTAINTY: "+(f.uncertaintyNotes||"None"));
+  lines.push("","CEREMONY NOTES (fill at ceremony)","  Attendees: ___","  Decision: ___","  Action items:","  - ___");
+  lines.push("","AI AUTONOMY LEVELS","  Discover: "+r.levels.Discover,"  Define:   "+r.levels.Define,"  Develop:  "+r.levels.Develop,"  Deliver:  "+r.levels.Deliver);
+  lines.push("",sep,"Methodology: OpsDefense v1.0 | Scoring: v1 | Tool: v2.0 (split assessment)",sep);
   return lines.join("\n");
 }
 
-function doCopy(){
-  var text = generateExport();
-  navigator.clipboard.writeText(text).then(function(){
-    var btn = $("btn-copy");
-    btn.textContent = "Copied!";
-    btn.classList.add("copied");
-    setTimeout(function(){btn.textContent="Copy";btn.classList.remove("copied");},2500);
+// ============================================================
+// ACTIONS
+// ============================================================
+function startMode(m){S.mode=m;S.phase="form";S.step=0;render();}
+function goNext(){
+  if(S.mode==="continue"&&S.step===0&&!S.selectedPartner){S.error="Select an assessment first.";render();return;}
+  S.error=null;S.step++;render();window.scrollTo(0,0);
+}
+function goBack(){S.error=null;if(S.step>0){S.step--;render();}else{resetState();}window.scrollTo(0,0);}
+
+function saveNew(){
+  S.phase="loading";render();
+  var d={action:"create",betName:S.form.betName,summary:S.form.summary,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,pii:S.form.pii,contractual:S.form.contractual,firstTime:S.form.firstTime,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,preliminaryTier:S.form.preliminaryTier||""};
+  apiCall(d,function(res){
+    if(res.error){S.error=res.error;S.phase="form";S.step=3;render();return;}
+    S.result=computeScore(mergeForScore());
+    S.result.assessmentId=res.assessmentId;
+    S.result.savedForPartner=true;
+    S.phase="result";render();window.scrollTo(0,0);
+  });
+}
+function saveComplete(){
+  S.phase="loading";render();
+  var p=S.selectedPartner;
+  var myLens=mergeForScore();var mySc=computeScore(myLens);
+  var full=mergeWithPartner();var fullSc=computeScore(full);
+  var d={action:"complete",assessmentId:p.assessmentId,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,popsTier:S.form.role==="POps"?mySc.tier:"",sweTier:S.form.role==="SWE"?mySc.tier:""};
+  apiCall(d,function(res){
+    if(res.error){S.error=res.error;S.phase="form";S.step=3;render();return;}
+    S.result=fullSc;
+    S.result.popsTier=res.popsTier||p.popsTier||"";
+    S.result.sweTier=res.sweTier||p.sweTier||"";
+    S.result.tiersMatch=res.tiersMatch;
+    S.result.assessmentId=res.assessmentId;
+    S.phase="result";render();window.scrollTo(0,0);
+  });
+}
+function saveSolo(){
+  S.phase="loading";render();
+  var sc=computeScore(mergeForScore());
+  var d={action:"solo",betName:S.form.betName,summary:S.form.summary,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,pii:S.form.pii,contractual:S.form.contractual,firstTime:S.form.firstTime,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,tier:sc.tier};
+  apiCall(d,function(res){
+    if(res.error){S.error=res.error;S.phase="form";S.step=3;render();return;}
+    S.result=sc;S.result.assessmentId=res.assessmentId;
+    S.phase="result";render();window.scrollTo(0,0);
   });
 }
 
-function editForm(){
-  phase = "form";
-  result = null;
-  render();
-  window.scrollTo(0,0);
+function selectPartner(idx){S.selectedPartner=S.searchResults[idx];render();}
+
+var searchTimer=null;
+function doSearch(q){
+  S.searchQuery=q;S.selectedPartner=null;
+  clearTimeout(searchTimer);
+  if(q.length<2){S.searchResults=[];render();return;}
+  searchTimer=setTimeout(function(){
+    apiSearch(q,function(res){S.searchResults=res.results||[];render();var sb=$("searchBox");if(sb){sb.value=q;sb.focus();}});
+  },400);
+}
+
+function doCopy(){
+  var t=genExport();navigator.clipboard.writeText(t).then(function(){var b=$("bcopy");b.textContent="Copied!";b.classList.add("copied");setTimeout(function(){b.textContent="Copy";b.classList.remove("copied");},2500);});
+}
+
+// ============================================================
+// BINDING
+// ============================================================
+function bindAll(){
+  document.querySelectorAll("[data-field]").forEach(function(el){
+    var f=el.getAttribute("data-field");
+    if(f==="searchQuery"){
+      el.addEventListener("input",function(){doSearch(el.value);});
+      return;
+    }
+    if(el.tagName==="SELECT"){
+      el.addEventListener("change",function(){S.form[f]=el.value;render();});
+    } else {
+      el.addEventListener("input",function(){S.form[f]=el.value;validateBtn();});
+    }
+  });
+  validateBtn();
+}
+function validateBtn(){
+  var btn=$("bn");if(!btn)return;
+  var ok=true;
+  if(S.mode==="new"||S.mode==="solo"){
+    if(S.step===0)ok=S.form.betName&&S.form.role&&S.form.summary;
+    else if(S.step===1){
+      if(S.mode==="solo")ok=S.form.audience&&S.form.regulatory&&S.form.financial&&S.form.spec&&S.form.rollback&&S.form.domain&&S.form.test&&S.form.verify;
+      else if(S.form.role==="POps")ok=S.form.audience&&S.form.regulatory&&S.form.financial&&S.form.spec;
+      else if(S.form.role==="SWE")ok=S.form.rollback&&S.form.domain&&S.form.test&&S.form.verify;
+    }
+    else if(S.step===2)ok=S.form.pii&&S.form.contractual&&S.form.firstTime&&S.form.confidence;
+  } else if(S.mode==="continue"){
+    if(S.step===0)ok=!!S.selectedPartner;
+    else if(S.step===1){
+      if(S.form.role==="POps")ok=S.form.audience&&S.form.regulatory&&S.form.financial&&S.form.spec;
+      else ok=S.form.rollback&&S.form.domain&&S.form.test&&S.form.verify;
+    }
+    else if(S.step===2)ok=!!S.form.confidence;
+  }
+  btn.disabled=!ok;
 }
 
 render();
