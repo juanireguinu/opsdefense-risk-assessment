@@ -153,15 +153,20 @@ function resetState(){
 // ============================================================
 function apiCall(data,cb){
   if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({error:"API URL not configured. See setup guide."});return;}
-  fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(data),redirect:"follow"}).then(function(r){return r.text()}).then(function(t){
-    try{cb(JSON.parse(t))}catch(e){cb({error:"Invalid response from server"})}
-  }).catch(function(e){cb({error:"Network error: "+e.message})});
+  fetch(API_URL,{method:"POST",body:JSON.stringify(data)}).then(function(r){
+    if(!r.ok)return r.text().then(function(t){throw new Error("Server returned "+r.status)});
+    return r.text();
+  }).then(function(t){
+    try{cb(JSON.parse(t))}catch(e){cb({error:"Invalid response. Check Apps Script deployment."})}
+  }).catch(function(e){cb({error:"Connection failed: "+e.message+". Check that your Apps Script is deployed as a web app with access set to Anyone."})});
 }
 function apiSearch(query,cb){
   if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({results:[]});return;}
-  fetch(API_URL+"?action=search&query="+encodeURIComponent(query),{redirect:"follow"}).then(function(r){return r.text()}).then(function(t){
+  fetch(API_URL+"?action=search&query="+encodeURIComponent(query)).then(function(r){return r.text()}).then(function(t){
     try{cb(JSON.parse(t))}catch(e){cb({results:[]})}
-  }).catch(function(){cb({results:[]})});
+  }).catch(function(){
+    apiCall({action:"search",query:query},cb);
+  });
 }
 
 // ============================================================
