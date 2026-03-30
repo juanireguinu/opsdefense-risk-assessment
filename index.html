@@ -129,7 +129,7 @@ textarea{resize:vertical;min-height:72px}
 // ============================================================
 // CONFIGURATION — Replace with your Apps Script URL
 // ============================================================
-var API_URL = "https://script.google.com/a/macros/nubank.com.br/s/AKfycbyhPZDRI_y5mNY9RrvjgRaGG1hXXCYiI8COLOdk4Vssu3Cbg-OYoJLWxuPfaUPXun7W/exec";
+var API_URL = "https://script.google.com/a/macros/nubank.com.br/s/AKfycbw_n_z5gXe9VmY7942Y6je9K0kuoncMWQpdvMpYKcPE1ek6rZ_6WqNQOCGcE_duEdJN/exec";
 
 // ============================================================
 // STATE
@@ -151,22 +151,19 @@ function resetState(){
 // ============================================================
 // API
 // ============================================================
-function apiCall(data,cb){
+function apiCall(action,data,cb){
   if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({error:"API URL not configured. See setup guide."});return;}
-  fetch(API_URL,{method:"POST",body:JSON.stringify(data)}).then(function(r){
-    if(!r.ok)return r.text().then(function(t){throw new Error("Server returned "+r.status)});
-    return r.text();
-  }).then(function(t){
-    try{cb(JSON.parse(t))}catch(e){cb({error:"Invalid response. Check Apps Script deployment."})}
-  }).catch(function(e){cb({error:"Connection failed: "+e.message+". Check that your Apps Script is deployed as a web app with access set to Anyone."})});
+  var encoded=encodeURIComponent(JSON.stringify(data));
+  var url=API_URL+"?action="+action+"&d="+encoded;
+  fetch(url).then(function(r){return r.text()}).then(function(t){
+    try{cb(JSON.parse(t))}catch(e){cb({error:"Invalid response from server. Raw: "+t.substring(0,200)})}
+  }).catch(function(e){cb({error:"Connection failed: "+e.message+". Verify Apps Script is deployed as web app with access=Anyone."})});
 }
 function apiSearch(query,cb){
   if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({results:[]});return;}
   fetch(API_URL+"?action=search&query="+encodeURIComponent(query)).then(function(r){return r.text()}).then(function(t){
     try{cb(JSON.parse(t))}catch(e){cb({results:[]})}
-  }).catch(function(){
-    apiCall({action:"search",query:query},cb);
-  });
+  }).catch(function(){cb({results:[]})});
 }
 
 // ============================================================
@@ -521,8 +518,8 @@ function goBack(){S.error=null;if(S.step>0){S.step--;render();}else{resetState()
 
 function saveNew(){
   S.phase="loading";render();
-  var d={action:"create",betName:S.form.betName,summary:S.form.summary,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,pii:S.form.pii,contractual:S.form.contractual,firstTime:S.form.firstTime,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,preliminaryTier:S.form.preliminaryTier||""};
-  apiCall(d,function(res){
+  var d={betName:S.form.betName,summary:S.form.summary,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,pii:S.form.pii,contractual:S.form.contractual,firstTime:S.form.firstTime,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,preliminaryTier:S.form.preliminaryTier||""};
+  apiCall("create",d,function(res){
     if(res.error){S.error=res.error;S.phase="form";S.step=3;render();return;}
     S.result=computeScore(mergeForScore());
     S.result.assessmentId=res.assessmentId;
@@ -535,8 +532,8 @@ function saveComplete(){
   var p=S.selectedPartner;
   var myLens=mergeForScore();var mySc=computeScore(myLens);
   var full=mergeWithPartner();var fullSc=computeScore(full);
-  var d={action:"complete",assessmentId:p.assessmentId,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,popsTier:S.form.role==="POps"?mySc.tier:"",sweTier:S.form.role==="SWE"?mySc.tier:""};
-  apiCall(d,function(res){
+  var d={assessmentId:p.assessmentId,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,popsTier:S.form.role==="POps"?mySc.tier:"",sweTier:S.form.role==="SWE"?mySc.tier:""};
+  apiCall("complete",d,function(res){
     if(res.error){S.error=res.error;S.phase="form";S.step=3;render();return;}
     S.result=fullSc;
     S.result.popsTier=res.popsTier||p.popsTier||"";
@@ -549,8 +546,8 @@ function saveComplete(){
 function saveSolo(){
   S.phase="loading";render();
   var sc=computeScore(mergeForScore());
-  var d={action:"solo",betName:S.form.betName,summary:S.form.summary,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,pii:S.form.pii,contractual:S.form.contractual,firstTime:S.form.firstTime,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,tier:sc.tier};
-  apiCall(d,function(res){
+  var d={betName:S.form.betName,summary:S.form.summary,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,pii:S.form.pii,contractual:S.form.contractual,firstTime:S.form.firstTime,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,tier:sc.tier};
+  apiCall("solo",d,function(res){
     if(res.error){S.error=res.error;S.phase="form";S.step=3;render();return;}
     S.result=sc;S.result.assessmentId=res.assessmentId;
     S.phase="result";render();window.scrollTo(0,0);
