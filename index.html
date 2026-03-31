@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AI Risk Assessment - OpsDefense v2</title>
+<title>AI Risk Assessment - OpsDefense v2.1</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -129,7 +129,7 @@ textarea{resize:vertical;min-height:72px}
 // ============================================================
 // CONFIGURATION — Replace with your Apps Script URL
 // ============================================================
-var API_URL = "https://script.google.com/a/macros/nubank.com.br/s/AKfycbw_n_z5gXe9VmY7942Y6je9K0kuoncMWQpdvMpYKcPE1ek6rZ_6WqNQOCGcE_duEdJN/exec";
+var API_URL = "https://script.google.com/macros/s/AKfycbyK7zwNRg8bSB8ocEehXuBEQ-_CB30zDa062XGDOV45mw8qPDsPEBfWVIW4yZGjK9CI/exec";
 
 // ============================================================
 // STATE
@@ -153,17 +153,28 @@ function resetState(){
 // ============================================================
 function apiCall(action,data,cb){
   if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({error:"API URL not configured. See setup guide."});return;}
+  var cbName="odc_"+Date.now()+"_"+Math.floor(Math.random()*9999);
   var encoded=encodeURIComponent(JSON.stringify(data));
-  var url=API_URL+"?action="+action+"&d="+encoded;
-  fetch(url).then(function(r){return r.text()}).then(function(t){
-    try{cb(JSON.parse(t))}catch(e){cb({error:"Invalid response from server. Raw: "+t.substring(0,200)})}
-  }).catch(function(e){cb({error:"Connection failed: "+e.message+". Verify Apps Script is deployed as web app with access=Anyone."})});
+  var url=API_URL+"?action="+action+"&d="+encoded+"&callback="+cbName;
+  var script=document.createElement("script");
+  var timeout=setTimeout(function(){cleanup();cb({error:"Request timed out after 15 seconds. Check that your Apps Script is deployed as a NEW deployment (not updated) with access=Anyone."});},15000);
+  function cleanup(){clearTimeout(timeout);delete window[cbName];if(script.parentNode)script.parentNode.removeChild(script);}
+  window[cbName]=function(result){cleanup();cb(result);};
+  script.src=url;
+  script.onerror=function(){cleanup();cb({error:"Failed to connect to Google Sheets. Verify your Apps Script URL is correct and deployed as web app."});};
+  document.body.appendChild(script);
 }
 function apiSearch(query,cb){
   if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({results:[]});return;}
-  fetch(API_URL+"?action=search&query="+encodeURIComponent(query)).then(function(r){return r.text()}).then(function(t){
-    try{cb(JSON.parse(t))}catch(e){cb({results:[]})}
-  }).catch(function(){cb({results:[]})});
+  var cbName="ods_"+Date.now();
+  var url=API_URL+"?action=search&query="+encodeURIComponent(query)+"&callback="+cbName;
+  var script=document.createElement("script");
+  var timeout=setTimeout(function(){cleanup();cb({results:[]});},10000);
+  function cleanup(){clearTimeout(timeout);delete window[cbName];if(script.parentNode)script.parentNode.removeChild(script);}
+  window[cbName]=function(result){cleanup();cb(result);};
+  script.src=url;
+  script.onerror=function(){cleanup();cb({results:[]});};
+  document.body.appendChild(script);
 }
 
 // ============================================================
@@ -215,7 +226,7 @@ function fin(r){
 // ============================================================
 function render(){$("app").innerHTML=renderPage();bindAll();}
 function renderPage(){
-  var o='<div class="header"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h1>AI risk assessment</h1><p class="sub">OpsDefense v2.0 — Split assessment</p></div>';
+  var o='<div class="header"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h1>AI risk assessment</h1><p class="sub">OpsDefense v2.1 — Split assessment</p></div>';
   if(S.phase==="landing")return o+renderLanding();
   if(S.phase==="loading")return o+renderLoading();
   if(S.phase==="result")return o+renderResult();
@@ -502,7 +513,7 @@ function genExport(){
   lines.push("","CONFIDENCE: "+(f.confidence||"--"),"UNCERTAINTY: "+(f.uncertaintyNotes||"None"));
   lines.push("","CEREMONY NOTES (fill at ceremony)","  Attendees: ___","  Decision: ___","  Action items:","  - ___");
   lines.push("","AI AUTONOMY LEVELS","  Discover: "+r.levels.Discover,"  Define:   "+r.levels.Define,"  Develop:  "+r.levels.Develop,"  Deliver:  "+r.levels.Deliver);
-  lines.push("",sep,"Methodology: OpsDefense v1.0 | Scoring: v1 | Tool: v2.0 (split assessment)",sep);
+  lines.push("",sep,"Methodology: OpsDefense v1.0 | Scoring: v1 | Tool: v2.1 (split+sheets)",sep);
   return lines.join("\n");
 }
 
