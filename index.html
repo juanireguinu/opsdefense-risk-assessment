@@ -8,9 +8,9 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--purple:#534AB7;--plite:#EEEDFE;--pdark:#3C3489;--teal:#1D9E75;--tlite:#E1F5EE;--tdark:#085041;--coral:#D85A30;--clite:#FAECE7;--cdark:#712B13;--red:#E24B4A;--rlite:#FCEBEB;--rdark:#791F1F;--rtext:#A32D2D;--amber:#BA7517;--alite:#FAEEDA;--adark:#633806;--atext:#854F0B;--blue:#378ADD;--blite:#E6F1FB;--green:#1D9E75;--glite:#EAF3DE;--gdark:#27500A;--gtext:#3B6D11;--g50:#F7F6F3;--g100:#EDEDEA;--g200:#D3D1C7;--g400:#888780;--g600:#5F5E5A;--g800:#2C2C2A;--bg:#fff;--bg2:#F7F6F3;--tx:#1A1A18;--tx2:#5F5E5A;--tx3:#888780;--brd:#E8E6E1;--r:10px;--rl:14px}
-html,body{margin:0;padding:0;height:100%;overflow-x:hidden;overflow-y:auto}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;justify-content:center;padding:24px 16px}
-.wrap{width:100%;max-width:640px;padding-bottom:60px}
+html{margin:0;padding:0;overflow-x:hidden}
+body{margin:0;padding:24px 16px;overflow-x:hidden;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);display:flex;justify-content:center}
+.wrap{width:100%;max-width:640px;padding-bottom:32px}
 @media(max-width:680px){.wrap{max-width:100%}body{padding:16px 12px}}
 .header{text-align:center;margin-bottom:24px}
 .logo{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--teal));margin-bottom:10px}
@@ -255,20 +255,26 @@ function render(){
   // Notify parent frame of height (for Google Sites embed)
   notifyParentHeight();
 }
-// Height notification — runs on render, resize, and mutation
+// Height notification — debounced, only fires when height changes
+var _lastSentHeight=0;
+var _heightTimer=null;
 function notifyParentHeight(){
-  try{
-    if(window.parent!==window){
-      var h=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)+40;
-      window.parent.postMessage({type:"resize",height:h},"*");
-      window.parent.postMessage({type:"setHeight",height:h},"*"); // alt format
-    }
-  }catch(e){}
+  if(_heightTimer)clearTimeout(_heightTimer);
+  _heightTimer=setTimeout(function(){
+    try{
+      if(window.parent!==window){
+        var wrapper=document.querySelector(".wrap");
+        var h=wrapper?wrapper.offsetHeight+48:document.body.scrollHeight;
+        if(Math.abs(h-_lastSentHeight)>5){
+          _lastSentHeight=h;
+          window.parent.postMessage({type:"resize",height:h},"*");
+          window.parent.postMessage({type:"setHeight",height:h},"*");
+        }
+      }
+    }catch(e){}
+  },100);
 }
 window.addEventListener("resize",notifyParentHeight);
-if(typeof MutationObserver!=="undefined"){
-  new MutationObserver(notifyParentHeight).observe(document.body,{childList:true,subtree:true});
-}
 function renderPage(){
   var o='<div class="header"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h1>AI risk assessment</h1><p class="sub">OpsDefense v2.2 — Split assessment</p></div>';
   // Identity bar (persistent)
