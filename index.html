@@ -8,9 +8,10 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--purple:#534AB7;--plite:#EEEDFE;--pdark:#3C3489;--teal:#1D9E75;--tlite:#E1F5EE;--tdark:#085041;--coral:#D85A30;--clite:#FAECE7;--cdark:#712B13;--red:#E24B4A;--rlite:#FCEBEB;--rdark:#791F1F;--rtext:#A32D2D;--amber:#BA7517;--alite:#FAEEDA;--adark:#633806;--atext:#854F0B;--blue:#378ADD;--blite:#E6F1FB;--green:#1D9E75;--glite:#EAF3DE;--gdark:#27500A;--gtext:#3B6D11;--g50:#F7F6F3;--g100:#EDEDEA;--g200:#D3D1C7;--g400:#888780;--g600:#5F5E5A;--g800:#2C2C2A;--bg:#fff;--bg2:#F7F6F3;--tx:#1A1A18;--tx2:#5F5E5A;--tx3:#888780;--brd:#E8E6E1;--r:10px;--rl:14px}
-html,body{margin:0;padding:0;height:100%;overflow-x:hidden}
+html,body{margin:0;padding:0;height:100%;overflow-x:hidden;overflow-y:auto}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;justify-content:center;padding:24px 16px}
-.wrap{width:100%;max-width:600px;padding-bottom:40px}
+.wrap{width:100%;max-width:640px;padding-bottom:60px}
+@media(max-width:680px){.wrap{max-width:100%}body{padding:16px 12px}}
 .header{text-align:center;margin-bottom:24px}
 .logo{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--teal));margin-bottom:10px}
 .logo svg{width:22px;height:22px}
@@ -127,6 +128,10 @@ textarea{resize:vertical;min-height:72px}
 .identity-bar{background:var(--bg2);border-radius:var(--r);padding:10px 14px;margin-bottom:20px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx2);border:1px solid var(--brd)}
 .identity-bar svg{width:16px;height:16px;flex-shrink:0;stroke:var(--tx3)}
 .identity-bar input{border:none;background:transparent;font-size:12px;font-family:inherit;color:var(--tx);outline:none;flex:1;padding:0}
+.identity-bar.shake{animation:shakeBar .5s ease;border-color:var(--purple);box-shadow:0 0 0 3px rgba(83,74,183,.18)}
+.identity-bar.shake svg{stroke:var(--purple)}
+.identity-bar.shake input::placeholder{color:var(--purple)}
+@keyframes shakeBar{0%,100%{transform:translateX(0)}15%,45%,75%{transform:translateX(-6px)}30%,60%,90%{transform:translateX(6px)}}
 </style>
 </head>
 <body>
@@ -135,7 +140,7 @@ textarea{resize:vertical;min-height:72px}
 // ============================================================
 // CONFIGURATION
 // ============================================================
-var API_URL = "https://script.google.com/macros/s/AKfycbw1bhaGyJ7rIY_e2HmXIWBUup40A5M7MiNx5YCQFafdJV8EQH6y2ggI46lRMSXBVe-5/exec";
+var API_URL = "https://script.google.com/macros/s/AKfycbx3cgFaboi3nENTfTeGUacndxQd_eKSa-Ge7GE_D5CJpn_bgi5gWOpXwUxVWEBtqo0/exec";
 
 // ============================================================
 // STATE
@@ -248,11 +253,21 @@ function render(){
     S._restoreFocus=null;
   }
   // Notify parent frame of height (for Google Sites embed)
+  notifyParentHeight();
+}
+// Height notification — runs on render, resize, and mutation
+function notifyParentHeight(){
   try{
     if(window.parent!==window){
-      window.parent.postMessage({type:"resize",height:document.body.scrollHeight+40},"*");
+      var h=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)+40;
+      window.parent.postMessage({type:"resize",height:h},"*");
+      window.parent.postMessage({type:"setHeight",height:h},"*"); // alt format
     }
   }catch(e){}
+}
+window.addEventListener("resize",notifyParentHeight);
+if(typeof MutationObserver!=="undefined"){
+  new MutationObserver(notifyParentHeight).observe(document.body,{childList:true,subtree:true});
 }
 function renderPage(){
   var o='<div class="header"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h1>AI risk assessment</h1><p class="sub">OpsDefense v2.2 — Split assessment</p></div>';
@@ -371,7 +386,8 @@ function renderSearch(){
     o+='<div class="search-results">';
     for(var i=0;i<S.searchResults.length;i++){
       var r=S.searchResults[i];
-      o+='<div class="search-item" onclick="selectPartner('+i+')"><h4>'+h(r.betName)+'</h4><p>Started by '+h(r.firstRole)+' | '+h(r.summary)+'</p></div>';
+      var startedBy=r.firstEmail||r.firstRole||"Unknown";
+      o+='<div class="search-item" onclick="selectPartner('+i+')"><h4>'+h(r.betName)+'</h4><p>Started by '+h(startedBy)+' ('+h(r.firstRole)+') | '+h(r.summary)+'</p></div>';
     }
     o+='</div>';
   } else if(S.searchQuery.length>=2){
@@ -382,7 +398,8 @@ function renderSearch(){
     o+='<div style="margin-top:16px"><div class="locked-card"><div class="locked-label">Selected assessment</div>';
     o+='<div class="locked-row"><span>Bet</span><span style="font-weight:500">'+h(p.betName)+'</span></div>';
     o+='<div class="locked-row"><span>Summary</span><span>'+h(p.summary)+'</span></div>';
-    o+='<div class="locked-row"><span>Started by</span><span>'+h(p.firstRole)+'</span></div>';
+    o+='<div class="locked-row"><span>Started by</span><span>'+h(p.firstEmail||p.firstRole)+'</span></div>';
+    o+='<div class="locked-row"><span>Role</span><span>'+h(p.firstRole)+'</span></div>';
     o+='<div class="locked-row"><span>Preliminary tier</span><span style="font-weight:500">'+(p.popsTier||p.sweTier||p.preliminaryTier||"pending")+'</span></div>';
     o+='</div></div>';
     var myRole=p.firstRole==="POps"?"SWE":"POps";
@@ -395,7 +412,8 @@ function renderPartnerLocked(){
   var p=S.selectedPartner;if(!p)return '<p>No partner data. Go back and select an assessment.</p>';
   var myRole=S.form.role;
   var o='<div class="step-title">Your lens ('+myRole+')</div>';
-  o+='<div class="locked-card"><div class="locked-label">Partner\'s answers ('+p.firstRole+') — read only</div>';
+  var partnerLabel=(p.firstEmail||p.firstRole);
+  o+='<div class="locked-card"><div class="locked-label">'+h(partnerLabel)+'\'s answers ('+p.firstRole+') — read only</div>';
   if(p.firstRole==="POps"){
     o+='<div class="locked-row"><span>Audience</span><span>'+h(p.audience)+'</span></div>';
     o+='<div class="locked-row"><span>Regulatory</span><span>'+h(p.regulatory)+'</span></div>';
@@ -432,7 +450,8 @@ function renderMergedPreview(){
   var match=partnerTier===myTier;
   var t=sc.tier.toLowerCase();
   var o='<div class="step-title">Merged result</div>';
-  o+='<div class="lens-compare"><div class="lens-card lens-pops"><h4>'+p.firstRole+' lens</h4><div class="tier-val">'+partnerTier+'</div></div><div class="lens-card lens-swe"><h4>'+S.form.role+' lens</h4><div class="tier-val">'+myTier+'</div></div></div>';
+  var partnerLabel=(p.firstEmail||p.firstRole);
+  o+='<div class="lens-compare"><div class="lens-card lens-pops"><h4>'+h(partnerLabel)+' ('+p.firstRole+')</h4><div class="tier-val">'+partnerTier+'</div></div><div class="lens-card lens-swe"><h4>'+h(S.assessorEmail||S.form.role)+' ('+S.form.role+')</h4><div class="tier-val">'+myTier+'</div></div></div>';
   if(match)o+='<div class="match-badge">Both lenses agree — auto-confirmation eligible</div>';
   else o+='<div class="divergence"><div class="divergence-title">Tiers diverge</div>A 15-minute sync call is recommended to align. The higher tier ('+sc.tier+') applies as default.</div>';
   o+=renderProbExplainer(sc);
@@ -473,7 +492,8 @@ function renderResult(){
   var t=r.tier.toLowerCase();
   var o='';
   if(S.mode==="continue"&&r.popsTier){
-    o+='<div class="lens-compare"><div class="lens-card lens-pops"><h4>'+((S.selectedPartner||{}).firstRole||"POps")+' lens</h4><div class="tier-val">'+(r.popsTier||"")+'</div></div><div class="lens-card lens-swe"><h4>'+S.form.role+' lens</h4><div class="tier-val">'+(r.sweTier||"")+'</div></div></div>';
+    var pLabel=((S.selectedPartner||{}).firstEmail||(S.selectedPartner||{}).firstRole||"Partner");
+    o+='<div class="lens-compare"><div class="lens-card lens-pops"><h4>'+h(pLabel)+' ('+ h((S.selectedPartner||{}).firstRole||"POps")+')</h4><div class="tier-val">'+(r.popsTier||"")+'</div></div><div class="lens-card lens-swe"><h4>'+h(S.assessorEmail||S.form.role)+' ('+h(S.form.role)+')</h4><div class="tier-val">'+(r.sweTier||"")+'</div></div></div>';
     if(r.tiersMatch)o+='<div class="match-badge">Both lenses agree — auto-confirmed</div>';
     else o+='<div class="divergence"><div class="divergence-title">Tiers diverged</div>15-minute sync recommended. Higher tier applied.</div>';
   }
@@ -557,7 +577,8 @@ function genExport(){
 // ============================================================
 function startMode(m){
   if(!S.assessorEmail||!S.assessorEmail.includes("@")){
-    alert("Please enter your email address at the top before starting.");
+    var bar=document.querySelector(".identity-bar");
+    if(bar){bar.classList.remove("shake");void bar.offsetWidth;bar.classList.add("shake");setTimeout(function(){bar.classList.remove("shake");},600);}
     var ei=$("emailInput");if(ei)ei.focus();
     return;
   }
