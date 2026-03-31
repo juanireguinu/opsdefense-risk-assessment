@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AI Risk Assessment - OpsDefense v2.1</title>
+<title>AI Risk Assessment - OpsDefense v2.2</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--purple:#534AB7;--plite:#EEEDFE;--pdark:#3C3489;--teal:#1D9E75;--tlite:#E1F5EE;--tdark:#085041;--coral:#D85A30;--clite:#FAECE7;--cdark:#712B13;--red:#E24B4A;--rlite:#FCEBEB;--rdark:#791F1F;--rtext:#A32D2D;--amber:#BA7517;--alite:#FAEEDA;--adark:#633806;--atext:#854F0B;--blue:#378ADD;--blite:#E6F1FB;--green:#1D9E75;--glite:#EAF3DE;--gdark:#27500A;--gtext:#3B6D11;--g50:#F7F6F3;--g100:#EDEDEA;--g200:#D3D1C7;--g400:#888780;--g600:#5F5E5A;--g800:#2C2C2A;--bg:#fff;--bg2:#F7F6F3;--tx:#1A1A18;--tx2:#5F5E5A;--tx3:#888780;--brd:#E8E6E1;--r:10px;--rl:14px}
+html,body{margin:0;padding:0;height:100%;overflow-x:hidden}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;justify-content:center;padding:24px 16px}
-.wrap{width:100%;max-width:520px}
+.wrap{width:100%;max-width:600px;padding-bottom:40px}
 .header{text-align:center;margin-bottom:24px}
 .logo{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--teal));margin-bottom:10px}
 .logo svg{width:22px;height:22px}
@@ -29,7 +30,7 @@ h1{font-size:20px;font-weight:600;margin-bottom:2px}
 .tag-pop{background:var(--plite);color:var(--pdark)}
 .tag-swe{background:var(--tlite);color:var(--tdark)}
 .tag-any{background:var(--g50);color:var(--g600)}
-select,input[type=text],textarea{width:100%;padding:10px 14px;border:1.5px solid var(--brd);border-radius:var(--r);font-size:13px;font-family:inherit;color:var(--tx);background:var(--bg);transition:border-color .2s;outline:none;appearance:none}
+select,input[type=text],input[type=email],textarea{width:100%;padding:10px 14px;border:1.5px solid var(--brd);border-radius:var(--r);font-size:13px;font-family:inherit;color:var(--tx);background:var(--bg);transition:border-color .2s;outline:none;appearance:none}
 select{background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23888780' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;cursor:pointer}
 select:focus,input:focus,textarea:focus{border-color:var(--purple)}
 textarea{resize:vertical;min-height:72px}
@@ -38,11 +39,6 @@ textarea{resize:vertical;min-height:72px}
 .flag-red{background:var(--rlite);color:var(--rdark)}
 .flag-amber{background:var(--alite);color:var(--adark)}
 .important-marker{border-left:3px solid var(--teal);padding-left:16px;border-radius:0}
-.cb-group{display:flex;flex-direction:column;gap:4px}
-.cb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;background:var(--bg2);cursor:pointer;font-size:13px;border:1.5px solid transparent;transition:all .15s}
-.cb-item:hover{background:var(--g100)}
-.cb-item.checked{background:var(--alite);border-color:var(--amber)}
-.cb-item input{accent-color:var(--amber);width:16px;height:16px;cursor:pointer}
 .btns{display:flex;gap:10px;margin-top:24px}
 .btn{flex:1;padding:12px 16px;border-radius:var(--r);font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;border:none;transition:all .2s;text-align:center}
 .btn-back{background:var(--bg2);color:var(--tx2)}
@@ -63,7 +59,6 @@ textarea{resize:vertical;min-height:72px}
 .mode-badge{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px}
 .mb-purple{background:var(--plite);color:var(--pdark)}
 .mb-teal{background:var(--tlite);color:var(--tdark)}
-.mb-gray{background:var(--g50);color:var(--g600)}
 .locked-card{background:var(--bg2);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;border:1px dashed var(--brd)}
 .locked-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);margin-bottom:8px}
 .locked-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--tx2)}
@@ -85,6 +80,7 @@ textarea{resize:vertical;min-height:72px}
 .metric{background:var(--bg2);border-radius:var(--r);padding:12px 14px}
 .metric-label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);margin-bottom:3px}
 .metric-value{font-size:15px;font-weight:600}
+.metric-hint{font-size:10px;color:var(--tx3);margin-top:2px}
 .section-block{margin-bottom:14px}
 .section-block-title{font-size:13px;font-weight:600;margin-bottom:6px}
 .agenda-item{font-size:13px;color:var(--tx2);padding:7px 12px;border-left:2px solid var(--purple);margin-bottom:5px;line-height:1.5;background:var(--plite);border-radius:0 6px 6px 0}
@@ -111,7 +107,6 @@ textarea{resize:vertical;min-height:72px}
 .divergence{background:var(--alite);border:1px solid #BA751720;border-radius:var(--r);padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--adark)}
 .divergence-title{font-weight:600;margin-bottom:4px;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
 .match-badge{background:var(--glite);color:var(--gdark);border-radius:var(--r);padding:10px 16px;margin-bottom:16px;font-size:13px;font-weight:500;text-align:center}
-.solo-badge{background:var(--alite);color:var(--adark);border-radius:var(--r);padding:8px 12px;margin-bottom:12px;font-size:12px;text-align:center}
 .search-results{margin-top:12px}
 .search-item{background:var(--bg);border:1.5px solid var(--brd);border-radius:var(--r);padding:12px 16px;cursor:pointer;transition:all .2s;margin-bottom:6px}
 .search-item:hover{border-color:var(--teal);background:var(--tlite)}
@@ -121,47 +116,63 @@ textarea{resize:vertical;min-height:72px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-center{text-align:center;padding:40px 0}
 .error-box{background:var(--rlite);border:1px solid #E24B4A30;border-radius:var(--r);padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--rdark)}
+.prob-explain{background:var(--bg2);border-radius:var(--r);padding:12px 16px;margin-bottom:16px;font-size:12px;line-height:1.6;color:var(--tx2)}
+.prob-explain strong{color:var(--tx);font-weight:600}
+.prob-bar-track{height:8px;background:var(--g100);border-radius:4px;margin:8px 0 4px;position:relative}
+.prob-bar-fill{height:100%;border-radius:4px;transition:width .4s}
+.prob-bar-low{background:var(--green)}
+.prob-bar-mid{background:var(--amber)}
+.prob-bar-high{background:var(--red)}
+.prob-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--tx3)}
+.identity-bar{background:var(--bg2);border-radius:var(--r);padding:10px 14px;margin-bottom:20px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx2);border:1px solid var(--brd)}
+.identity-bar svg{width:16px;height:16px;flex-shrink:0;stroke:var(--tx3)}
+.identity-bar input{border:none;background:transparent;font-size:12px;font-family:inherit;color:var(--tx);outline:none;flex:1;padding:0}
 </style>
 </head>
 <body>
 <div class="wrap" id="app"></div>
 <script>
 // ============================================================
-// CONFIGURATION — Replace with your Apps Script URL
+// CONFIGURATION
 // ============================================================
-var API_URL = "https://script.google.com/macros/s/AKfycbyK7zwNRg8bSB8ocEehXuBEQ-_CB30zDa062XGDOV45mw8qPDsPEBfWVIW4yZGjK9CI/exec";
+var API_URL = "https://script.google.com/macros/s/AKfycbw1bhaGyJ7rIY_e2HmXIWBUup40A5M7MiNx5YCQFafdJV8EQH6y2ggI46lRMSXBVe-5/exec";
 
 // ============================================================
 // STATE
 // ============================================================
 var S = {
   phase:"landing", mode:null, step:0, role:"",
-  form:{betName:"",summary:"",role:"",audience:"",regulatory:"",financial:"",rollback:"",spec:"",domain:"",test:"",verify:"",pii:"",contractual:"",firstTime:"",confidence:"",uncertaintyNotes:"",opportunities:[],timeSink:""},
+  assessorEmail:"",
+  form:{betName:"",summary:"",role:"",audience:"",regulatory:"",financial:"",rollback:"",spec:"",domain:"",test:"",verify:"",pii:"",contractual:"",firstTime:"",confidence:"",uncertaintyNotes:""},
   partner:null, searchQuery:"", searchResults:[], selectedPartner:null,
-  result:null, error:null, saving:false
+  result:null, error:null, saving:false,
+  // Track focus restoration for search input
+  _restoreFocus:null
 };
 
 function $(id){return document.getElementById(id)}
 function h(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 function resetState(){
-  S={phase:"landing",mode:null,step:0,role:"",form:{betName:"",summary:"",role:"",audience:"",regulatory:"",financial:"",rollback:"",spec:"",domain:"",test:"",verify:"",pii:"",contractual:"",firstTime:"",confidence:"",uncertaintyNotes:"",opportunities:[],timeSink:""},partner:null,searchQuery:"",searchResults:[],selectedPartner:null,result:null,error:null,saving:false};
+  var email=S.assessorEmail; // preserve email across resets
+  S={phase:"landing",mode:null,step:0,role:"",assessorEmail:email,form:{betName:"",summary:"",role:"",audience:"",regulatory:"",financial:"",rollback:"",spec:"",domain:"",test:"",verify:"",pii:"",contractual:"",firstTime:"",confidence:"",uncertaintyNotes:""},partner:null,searchQuery:"",searchResults:[],selectedPartner:null,result:null,error:null,saving:false,_restoreFocus:null};
   render();
 }
 
 // ============================================================
-// API
+// API (JSONP)
 // ============================================================
 function apiCall(action,data,cb){
-  if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({error:"API URL not configured. See setup guide."});return;}
+  if(API_URL==="YOUR_APPS_SCRIPT_URL_HERE"){cb({error:"API URL not configured. Replace YOUR_APPS_SCRIPT_URL_HERE in the HTML."});return;}
+  data.assessorEmail=S.assessorEmail;
   var cbName="odc_"+Date.now()+"_"+Math.floor(Math.random()*9999);
   var encoded=encodeURIComponent(JSON.stringify(data));
   var url=API_URL+"?action="+action+"&d="+encoded+"&callback="+cbName;
   var script=document.createElement("script");
-  var timeout=setTimeout(function(){cleanup();cb({error:"Request timed out after 15 seconds. Check that your Apps Script is deployed as a NEW deployment (not updated) with access=Anyone."});},15000);
+  var timeout=setTimeout(function(){cleanup();cb({error:"Request timed out (15s). Check that your Apps Script is deployed as a NEW deployment with access=Anyone."});},15000);
   function cleanup(){clearTimeout(timeout);delete window[cbName];if(script.parentNode)script.parentNode.removeChild(script);}
   window[cbName]=function(result){cleanup();cb(result);};
   script.src=url;
-  script.onerror=function(){cleanup();cb({error:"Failed to connect to Google Sheets. Verify your Apps Script URL is correct and deployed as web app."});};
+  script.onerror=function(){cleanup();cb({error:"Failed to connect. Verify your Apps Script URL."});};
   document.body.appendChild(script);
 }
 function apiSearch(query,cb){
@@ -178,15 +189,15 @@ function apiSearch(query,cb){
 }
 
 // ============================================================
-// SCORING ENGINE (same as v1)
+// SCORING ENGINE
 // ============================================================
 function computeScore(f){
-  var r={tier:"",reasoning:[],agenda:[],flags:[],modifiers:[],probScore:0,probLabel:"",impactCol:"",baseTier:"",levels:{}};
+  var r={tier:"",reasoning:[],agenda:[],flags:[],modifiers:[],probScore:0,probLabel:"",impactCol:"",baseTier:"",levels:{},probBreakdown:{}};
   if(f.pii==="yes"){r.tier="High";r.reasoning.push("PII flag triggered: AI tools will interact with real customer data. Forces High risk.");r.flags.push("PII exposure requires data handling review.");r.agenda.push("Confirm data safeguards before AI tooling is configured.");return fin(r);}
   if(f.contractual==="yes"){r.tier="High";r.reasoning.push("Contractual obligation flag: external deliverable expectations. Forces High risk.");r.flags.push("Review contractual terms for AI-related restrictions.");r.agenda.push("Check if contracts restrict AI-assisted development.");return fin(r);}
   var colR={Operational:1,Financial:2,Reputational:3,Regulatory:4},maxC=0,cR=[];
   var auM={internal:"Operational",partners:"Financial",customer:"Reputational",public:"Reputational"};
-  if(f.audience){var ac=auM[f.audience]||"Operational";maxC=Math.max(maxC,colR[ac]);cR.push("Audience ("+f.audience+") maps to "+ac+".");}
+  if(f.audience){var ac=auM[f.audience]||"Operational";maxC=Math.max(maxC,colR[ac]);cR.push("Audience ("+f.audience+") → "+ac+".");}
   if(f.regulatory==="yes"||f.regulatory==="unsure"){maxC=Math.max(maxC,colR.Regulatory);cR.push("Regulatory "+(f.regulatory==="unsure"?"uncertain (treated as yes)":"confirmed")+".");}
   if(f.financial==="direct"){maxC=Math.max(maxC,colR.Financial);cR.push("Direct financial exposure.");}
   else if(f.financial==="indirect"){maxC=Math.max(maxC,colR.Financial);cR.push("Indirect financial exposure.");}
@@ -194,19 +205,22 @@ function computeScore(f){
   else if(f.rollback==="irreversible"){maxC=Math.min(4,maxC+2);cR.push("Rollback irreversible (+2).");}
   if(maxC===0)maxC=1;
   var cN={1:"Operational",2:"Financial",3:"Reputational",4:"Regulatory"};r.impactCol=cN[maxC];
+
   var vM={obvious:1,careful:2,run_it:3},dM={familiar:1,mostly:2,new:3},sM={clear:1,mostly:2,exploring:3},tM={yes:1,partial:2,no:3};
   var vS=vM[f.verify]||2,dS=dM[f.domain]||2,sS=sM[f.spec]||2,tS=tM[f.test]||2;
+  r.probBreakdown={verify:vS,domain:dS,spec:sS,test:tS};
   var avg=vS*.35+dS*.25+sS*.2+tS*.2;r.probScore=Math.round(avg*100)/100;
   r.probLabel=avg<=1.5?"Low":avg<=2.2?"Medium":"High";
+
   var mx={"Low-Operational":"Low","Low-Financial":"Low","Low-Reputational":"Mid","Low-Regulatory":"Mid","Medium-Operational":"Low","Medium-Financial":"Mid","Medium-Reputational":"High","Medium-Regulatory":"High","High-Operational":"Mid","High-Financial":"High","High-Reputational":"High","High-Regulatory":"High"};
   r.baseTier=mx[r.probLabel+"-"+r.impactCol]||"Mid";
   var tN={Low:1,Mid:2,High:3},tL={1:"Low",2:"Mid",3:"High"},cur=tN[r.baseTier];
-  if(f.firstTime==="yes"){var b=Math.min(3,cur+1);if(b!==cur){r.modifiers.push("First-time pattern: "+tL[cur]+" to "+tL[b]);cur=b;}}
-  if(f.confidence==="guessing"){var b2=Math.min(3,cur+1);if(b2!==cur){r.modifiers.push("Low confidence: "+tL[cur]+" to "+tL[b2]);cur=b2;}}
+  if(f.firstTime==="yes"){var b=Math.min(3,cur+1);if(b!==cur){r.modifiers.push("First-time pattern: "+tL[cur]+" → "+tL[b]);cur=b;}}
+  if(f.confidence==="guessing"){var b2=Math.min(3,cur+1);if(b2!==cur){r.modifiers.push("Low confidence: "+tL[cur]+" → "+tL[b2]);cur=b2;}}
   r.tier=tL[cur];
   r.reasoning.push("Impact: "+r.impactCol+" ("+cR.join(" ")+")");
-  r.reasoning.push("Probability: "+r.probLabel+" ("+r.probScore+"/3.00). "+(vS>=2?"Verifiability is key driver.":"Output is straightforward to verify."));
-  r.reasoning.push("Matrix ["+r.probLabel+" x "+r.impactCol+"] = base tier "+r.baseTier+".");
+  r.reasoning.push("Probability: "+r.probLabel+" ("+r.probScore+"/3.00). "+(vS>=2?"Verifiability is the key driver.":"Output is straightforward to verify."));
+  r.reasoning.push("Matrix ["+r.probLabel+" × "+r.impactCol+"] → base tier "+r.baseTier+".");
   if(r.modifiers.length)r.reasoning.push("Modifiers: "+r.modifiers.join(" "));
   if(f.regulatory==="unsure")r.agenda.push("Confirm regulatory status before classification is final.");
   if(f.confidence==="guessing"||f.confidence==="mostly")r.agenda.push("Review uncertainty notes before confirming tier.");
@@ -217,16 +231,33 @@ function computeScore(f){
   return fin(r);
 }
 function fin(r){
-  var lv={High:{Discover:"L0-L1 (AI assists, never drafts)",Define:"L0-L1 (AI suggests, human authors)",Develop:"L2 max (AI drafts, line-by-line review)",Deliver:"L1 (AI supports, human executes)"},Mid:{Discover:"L2 (AI drafts, human validates)",Define:"L1-L2 (AI challenges, drafts specs)",Develop:"L2-L3 (AI generates, PR-level review)",Deliver:"L2-L3 (AI executes checklist, human reviews)"},Low:{Discover:"L2-L3 (AI drives, human spot-checks)",Define:"L2-L3 (AI generates, human reviews)",Develop:"L3 (AI implements, PR-level review)",Deliver:"L3 (AI executes, human reviews failures)"}};
-  r.levels=lv[r.tier]||lv.Mid;r.range=r.tier==="High"?"L0-L2 (Human-led)":r.tier==="Mid"?"L1-L3 (AI drafts, human validates)":"L2-L3 (AI executes, human spot-checks)";return r;
+  var lv={High:{Discover:"L0–L1 (AI assists, never drafts)",Define:"L0–L1 (AI suggests, human authors)",Develop:"L2 max (AI drafts, line-by-line review)",Deliver:"L1 (AI supports, human executes)"},Mid:{Discover:"L2 (AI drafts, human validates)",Define:"L1–L2 (AI challenges, drafts specs)",Develop:"L2–L3 (AI generates, PR-level review)",Deliver:"L2–L3 (AI executes checklist, human reviews)"},Low:{Discover:"L2–L3 (AI drives, human spot-checks)",Define:"L2–L3 (AI generates, human reviews)",Develop:"L3 (AI implements, PR-level review)",Deliver:"L3 (AI executes, human reviews failures)"}};
+  r.levels=lv[r.tier]||lv.Mid;r.range=r.tier==="High"?"L0–L2 (Human-led)":r.tier==="Mid"?"L1–L3 (AI drafts, human validates)":"L2–L3 (AI executes, human spot-checks)";return r;
 }
 
 // ============================================================
 // RENDER
 // ============================================================
-function render(){$("app").innerHTML=renderPage();bindAll();}
+function render(){
+  $("app").innerHTML=renderPage();
+  bindAll();
+  // Restore focus to search input if needed
+  if(S._restoreFocus){
+    var el=$(S._restoreFocus.id);
+    if(el){el.focus();el.value=S._restoreFocus.val;el.setSelectionRange(S._restoreFocus.pos,S._restoreFocus.pos);}
+    S._restoreFocus=null;
+  }
+  // Notify parent frame of height (for Google Sites embed)
+  try{
+    if(window.parent!==window){
+      window.parent.postMessage({type:"resize",height:document.body.scrollHeight+40},"*");
+    }
+  }catch(e){}
+}
 function renderPage(){
-  var o='<div class="header"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h1>AI risk assessment</h1><p class="sub">OpsDefense v2.1 — Split assessment</p></div>';
+  var o='<div class="header"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h1>AI risk assessment</h1><p class="sub">OpsDefense v2.2 — Split assessment</p></div>';
+  // Identity bar (persistent)
+  o+='<div class="identity-bar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><input type="email" id="emailInput" data-field="assessorEmail" value="'+h(S.assessorEmail)+'" placeholder="your.name@nubank.com.br — identifies you in the assessment"></div>';
   if(S.phase==="landing")return o+renderLanding();
   if(S.phase==="loading")return o+renderLoading();
   if(S.phase==="result")return o+renderResult();
@@ -234,29 +265,27 @@ function renderPage(){
 }
 
 function renderLanding(){
-  return '<div class="mode-grid"><div class="mode-card" onclick="startMode(\'new\')"><div class="mode-badge mb-purple">Recommended</div><h3>Start new assessment</h3><p>I am the first to assess this bet. My partner will add their lens later.</p></div><div class="mode-card" onclick="startMode(\'continue\')"><div class="mode-badge mb-teal">Continue</div><h3>Add my lens to a partner\'s assessment</h3><p>My partner already started. I will search for the bet and add my perspective.</p></div><div class="mode-card" onclick="startMode(\'solo\')"><div class="mode-badge mb-gray">Solo</div><h3>Solo assessment</h3><p>I will answer all questions myself. Flagged as single-lens in the export.</p></div></div><p style="font-size:12px;color:var(--tx3);text-align:center">Split assessment is recommended. Each role answers only their expertise area.</p>';
+  return '<div class="mode-grid"><div class="mode-card" onclick="startMode(\'new\')"><div class="mode-badge mb-purple">Recommended</div><h3>Start new assessment</h3><p>I am the first to assess this bet. My partner will add their lens later.</p></div><div class="mode-card" onclick="startMode(\'continue\')"><div class="mode-badge mb-teal">Continue</div><h3>Add my lens to a partner\'s assessment</h3><p>My partner already started. I will search for the bet and add my perspective.</p></div></div><p style="font-size:12px;color:var(--tx3);text-align:center">Split assessment ensures both product and technical perspectives are captured.</p>';
 }
 
-function renderLoading(){return '<div class="loading-center"><div class="spinner"></div><p style="margin-top:16px;font-size:14px;font-weight:500">Saving to assessment registry...</p><p style="font-size:13px;color:var(--tx3)">Writing to Google Sheets. This may take a few seconds on first load.</p></div>';}
+function renderLoading(){return '<div class="loading-center"><div class="spinner"></div><p style="margin-top:16px;font-size:14px;font-weight:500">Saving to assessment registry...</p><p style="font-size:13px;color:var(--tx3)">Writing to Google Sheets.</p></div>';}
 
 // ============================================================
-// WIZARD RENDERING
+// WIZARD
 // ============================================================
 function renderWizard(){
   var totalSteps=4,o='';
   o+='<div class="progress">';for(var i=0;i<totalSteps;i++){o+='<div class="pbar '+(i<S.step?"done":i===S.step?"active":"")+'"></div>';}o+='</div>';
   o+='<div class="step-num">Step '+(S.step+1)+' of '+totalSteps+'</div>';
   if(S.mode==="new")o+=renderNewStep();
-  else if(S.mode==="continue")o+=renderContinueStep();
-  else o+=renderSoloStep();
+  else o+=renderContinueStep();
   if(S.error)o+='<div class="error-box">'+h(S.error)+'</div>';
   o+='<div class="btns">';
   if(S.step>0)o+='<button class="btn btn-back" onclick="goBack()">Back</button>';
   if(S.step<3)o+='<button class="btn btn-next" id="bn" onclick="goNext()">Next</button>';
   else{
     if(S.mode==="new")o+='<button class="btn btn-score" id="bn" onclick="saveNew()">Save and notify partner</button>';
-    else if(S.mode==="continue")o+='<button class="btn btn-score" id="bn" onclick="saveComplete()">Score merged assessment</button>';
-    else o+='<button class="btn btn-score" id="bn" onclick="saveSolo()">Score this bet</button>';
+    else o+='<button class="btn btn-score" id="bn" onclick="saveComplete()">Score merged assessment</button>';
   }
   o+='</div>';
   o+='<button class="btn-new" onclick="resetState()">Start over</button>';
@@ -320,9 +349,11 @@ function renderPreResult(){
   var merged=mergeForScore();var sc=computeScore(merged);
   var t=sc.tier.toLowerCase();
   var o='<div class="step-title">Preliminary result</div><div class="step-hint">Based on your lens only. Your partner will add their perspective to produce the merged score.</div>';
+  o+=renderProbExplainer(sc);
   o+='<div class="result-card result-'+t+'"><div class="result-chip chip-'+t+'">Your preliminary tier</div><div class="result-tier tier-'+t+'">'+sc.tier+' risk</div><div class="result-name rname-'+t+'">'+h(S.form.betName)+'</div><div class="result-reasoning rr-'+t+'">'+sc.reasoning.join("<br><br>")+'</div></div>';
   o+='<p style="font-size:13px;color:var(--tx3);margin-top:12px">Clicking <strong>Save and notify partner</strong> writes this to the assessment registry. Tell your partner to open the tool and search for "'+h(S.form.betName)+'".</p>';
   S.form.preliminaryTier=sc.tier;
+  S.form._computedScore=sc;
   return o;
 }
 
@@ -335,7 +366,7 @@ function renderContinueStep(){
 }
 function renderSearch(){
   var o='<div class="step-title">Find your bet</div><div class="step-hint">Search for the bet your partner already assessed.</div>';
-  o+='<div class="field"><div class="field-label">Search by bet name</div><input type="text" id="searchBox" data-field="searchQuery" value="'+h(S.searchQuery)+'" placeholder="Start typing the bet name..."></div>';
+  o+='<div class="field"><div class="field-label">Search by bet name</div><input type="text" id="searchBox" value="'+h(S.searchQuery)+'" placeholder="Start typing the bet name..."></div>';
   if(S.searchResults.length){
     o+='<div class="search-results">';
     for(var i=0;i<S.searchResults.length;i++){
@@ -344,7 +375,7 @@ function renderSearch(){
     }
     o+='</div>';
   } else if(S.searchQuery.length>=2){
-    o+='<p style="font-size:13px;color:var(--tx3);margin-top:12px">No pending assessments found for "'+h(S.searchQuery)+'". Your partner may not have saved yet, or the assessment is already complete.</p>';
+    o+='<p style="font-size:13px;color:var(--tx3);margin-top:12px">No pending assessments found for "'+h(S.searchQuery)+'". Your partner may not have saved yet.</p>';
   }
   if(S.selectedPartner){
     var p=S.selectedPartner;
@@ -352,7 +383,7 @@ function renderSearch(){
     o+='<div class="locked-row"><span>Bet</span><span style="font-weight:500">'+h(p.betName)+'</span></div>';
     o+='<div class="locked-row"><span>Summary</span><span>'+h(p.summary)+'</span></div>';
     o+='<div class="locked-row"><span>Started by</span><span>'+h(p.firstRole)+'</span></div>';
-    o+='<div class="locked-row"><span>Preliminary tier</span><span style="font-weight:500">'+(p.popsTier||p.sweTier||"pending")+'</span></div>';
+    o+='<div class="locked-row"><span>Preliminary tier</span><span style="font-weight:500">'+(p.popsTier||p.sweTier||p.preliminaryTier||"pending")+'</span></div>';
     o+='</div></div>';
     var myRole=p.firstRole==="POps"?"SWE":"POps";
     S.form.role=myRole;S.form.betName=p.betName;S.form.summary=p.summary;
@@ -396,7 +427,7 @@ function renderMergedPreview(){
   var p=S.selectedPartner,full=mergeWithPartner();
   var sc=computeScore(full);
   var myLens=mergeForScore();var mySc=computeScore(myLens);
-  var partnerTier=p.popsTier||p.sweTier||"Mid";
+  var partnerTier=p.popsTier||p.sweTier||p.preliminaryTier||"Mid";
   var myTier=mySc.tier;
   var match=partnerTier===myTier;
   var t=sc.tier.toLowerCase();
@@ -404,28 +435,33 @@ function renderMergedPreview(){
   o+='<div class="lens-compare"><div class="lens-card lens-pops"><h4>'+p.firstRole+' lens</h4><div class="tier-val">'+partnerTier+'</div></div><div class="lens-card lens-swe"><h4>'+S.form.role+' lens</h4><div class="tier-val">'+myTier+'</div></div></div>';
   if(match)o+='<div class="match-badge">Both lenses agree — auto-confirmation eligible</div>';
   else o+='<div class="divergence"><div class="divergence-title">Tiers diverge</div>A 15-minute sync call is recommended to align. The higher tier ('+sc.tier+') applies as default.</div>';
+  o+=renderProbExplainer(sc);
   o+='<div class="result-card result-'+t+'"><div class="result-chip chip-'+t+'">Merged classification</div><div class="result-tier tier-'+t+'">'+sc.tier+' risk</div><div class="result-name rname-'+t+'">'+h(S.form.betName)+'</div><div class="result-reasoning rr-'+t+'">'+sc.reasoning.join("<br><br>")+'</div></div>';
   S.result=sc;S.result.popsTier=partnerTier;S.result.sweTier=myTier;S.result.tiersMatch=match;
+  S.form._computedScore=sc;
   return o;
 }
 
-// --- SOLO PATH ---
-function renderSoloStep(){
-  if(S.step===0)return renderBasics();
-  if(S.step===1)return renderAllFields();
-  if(S.step===2)return renderRedFlags();
-  return renderSoloResult();
-}
-function renderAllFields(){
-  var o='<div class="step-title">All assessment questions</div><div class="step-hint">Solo mode: answer both product and technical questions.</div>';
-  o+=renderPopsFields()+renderSweFields();
-  return o;
-}
-function renderSoloResult(){
-  var merged=mergeForScore();var sc=computeScore(merged);S.result=sc;
-  var t=sc.tier.toLowerCase();
-  var o='<div class="solo-badge">Solo assessment — partner review recommended at confirmation</div>';
-  o+='<div class="result-card result-'+t+'"><div class="result-chip chip-'+t+'">Classification</div><div class="result-tier tier-'+t+'">'+sc.tier+' risk</div><div class="result-name rname-'+t+'">'+h(S.form.betName)+'</div><div class="result-reasoning rr-'+t+'">'+sc.reasoning.join("<br><br>")+'</div></div>';
+// ============================================================
+// PROBABILITY EXPLAINER — makes the score understandable
+// ============================================================
+function renderProbExplainer(sc){
+  if(!sc.probScore)return '';
+  var pct=Math.round((sc.probScore/3)*100);
+  var cls=sc.probLabel==="Low"?"low":sc.probLabel==="Medium"?"mid":"high";
+  var bd=sc.probBreakdown||{};
+  var labels={1:"Low",2:"Medium",3:"High"};
+  var o='<div class="prob-explain">';
+  o+='<strong>Probability of AI-induced defect: '+sc.probLabel+' ('+sc.probScore+'/3.00)</strong><br>';
+  o+='This score estimates how likely AI output is to contain errors a human reviewer might miss. It is a weighted average of four dimensions:';
+  o+='<div class="prob-bar-track"><div class="prob-bar-fill prob-bar-'+cls+'" style="width:'+pct+'%"></div></div>';
+  o+='<div class="prob-labels"><span>1.0 — Low risk</span><span>2.0 — Medium</span><span>3.0 — High risk</span></div>';
+  o+='<div style="margin-top:10px;font-size:11px;line-height:1.7">';
+  if(bd.verify)o+='<strong>Verifiability</strong> (35% weight): '+labels[bd.verify]+' — can you spot AI mistakes by reading?<br>';
+  if(bd.domain)o+='<strong>Domain familiarity</strong> (25%): '+labels[bd.domain]+' — has the squad built this before?<br>';
+  if(bd.spec)o+='<strong>Spec clarity</strong> (20%): '+labels[bd.spec]+' — how clear are the requirements?<br>';
+  if(bd.test)o+='<strong>Testability</strong> (20%): '+labels[bd.test]+' — can automated tests catch mistakes?';
+  o+='</div></div>';
   return o;
 }
 
@@ -441,9 +477,9 @@ function renderResult(){
     if(r.tiersMatch)o+='<div class="match-badge">Both lenses agree — auto-confirmed</div>';
     else o+='<div class="divergence"><div class="divergence-title">Tiers diverged</div>15-minute sync recommended. Higher tier applied.</div>';
   }
-  if(S.mode==="solo")o+='<div class="solo-badge">Solo assessment — partner review recommended</div>';
-  o+='<div class="result-card result-'+t+'"><div class="result-chip chip-'+t+'">'+(S.mode==="continue"?"Merged":"")+'Classification</div><div class="result-tier tier-'+t+'">'+r.tier+' risk</div><div class="result-name rname-'+t+'">'+h(S.form.betName)+'</div><div class="result-reasoning rr-'+t+'">'+r.reasoning.join("<br><br>")+'</div></div>';
-  o+='<div class="metrics"><div class="metric"><div class="metric-label">Impact</div><div class="metric-value">'+r.impactCol+'</div></div><div class="metric"><div class="metric-label">Probability</div><div class="metric-value">'+r.probLabel+'</div></div><div class="metric"><div class="metric-label">Score</div><div class="metric-value">'+r.probScore.toFixed(2)+'/3</div></div></div>';
+  o+='<div class="result-card result-'+t+'"><div class="result-chip chip-'+t+'">Classification</div><div class="result-tier tier-'+t+'">'+r.tier+' risk</div><div class="result-name rname-'+t+'">'+h(S.form.betName)+'</div><div class="result-reasoning rr-'+t+'">'+r.reasoning.join("<br><br>")+'</div></div>';
+  o+=renderProbExplainer(r);
+  o+='<div class="metrics"><div class="metric"><div class="metric-label">Impact</div><div class="metric-value">'+r.impactCol+'</div><div class="metric-hint">Highest consequence area</div></div><div class="metric"><div class="metric-label">Probability</div><div class="metric-value">'+r.probLabel+'</div><div class="metric-hint">'+r.probScore.toFixed(2)+' / 3.00</div></div><div class="metric"><div class="metric-label">Tier</div><div class="metric-value">'+r.tier+'</div><div class="metric-hint">'+(r.modifiers&&r.modifiers.length?"Modified":"From matrix")+'</div></div></div>';
   if(r.modifiers&&r.modifiers.length){o+='<div class="section-block"><div class="section-block-title">Modifiers</div>';for(var i=0;i<r.modifiers.length;i++)o+='<div class="modifier-item">'+h(r.modifiers[i])+'</div>';o+='</div>';}
   o+='<div class="section-block"><div class="section-block-title">Ceremony agenda</div>';for(var j=0;j<r.agenda.length;j++)o+='<div class="agenda-item">'+h(r.agenda[j])+'</div>';o+='</div>';
   if(r.flags&&r.flags.length){o+='<div class="section-block"><div class="section-block-title">Flags for Squad Lead</div>';for(var k=0;k<r.flags.length;k++)o+='<div class="flag-item">'+h(r.flags[k])+'</div>';o+='</div>';}
@@ -473,9 +509,7 @@ function selEx(name,opts){
   for(var j=0;j<opts.length;j++){if(opts[j][0]===v&&opts[j][2])o+='<div class="example">'+h(opts[j][2])+'</div>';}
   return o;
 }
-function mergeForScore(){
-  var f={};for(var k in S.form)f[k]=S.form[k];return f;
-}
+function mergeForScore(){var f={};for(var k in S.form)f[k]=S.form[k];return f;}
 function mergeWithPartner(){
   var f={};for(var k in S.form)f[k]=S.form[k];
   if(S.selectedPartner){
@@ -504,23 +538,31 @@ function genExport(){
   var teL={yes:"Deterministic",partial:"Partial",no:"Hard to validate"};
   var veL={obvious:"Obvious",careful:"Careful review",run_it:"Must run it"};
   var full=S.mode==="continue"?mergeWithPartner():f;
-  var mode=S.mode==="solo"?"SOLO":"SPLIT ("+((S.selectedPartner||{}).firstRole||f.role)+" + "+(S.mode==="continue"?f.role:"partner pending")+")";
-  var lines=[sep,"AI RISK ASSESSMENT -- "+(f.betName||"[Bet name]"),"Assessed: "+d+" | Mode: "+mode,sep,"","CLASSIFICATION: "+r.tier.toUpperCase()+" RISK","AI autonomy range: "+r.range,"","SCORING SUMMARY"];
+  var mode="SPLIT ("+((S.selectedPartner||{}).firstRole||f.role)+" + "+(S.mode==="continue"?f.role:"partner pending")+")";
+  var lines=[sep,"AI RISK ASSESSMENT -- "+(f.betName||"[Bet name]"),"Assessed: "+d+" | Mode: "+mode,"Assessor: "+(S.assessorEmail||"[not provided]"),sep,"","CLASSIFICATION: "+r.tier.toUpperCase()+" RISK","AI autonomy range: "+r.range,"","SCORING SUMMARY"];
   for(var i=0;i<r.reasoning.length;i++)lines.push("  "+r.reasoning[i]);
+  if(r.probScore)lines.push("","PROBABILITY DETAIL","  Score: "+r.probScore.toFixed(2)+"/3.00 ("+r.probLabel+")","  Verifiability (35%): "+(r.probBreakdown?r.probBreakdown.verify:"--"),"  Domain (25%): "+(r.probBreakdown?r.probBreakdown.domain:"--"),"  Spec clarity (20%): "+(r.probBreakdown?r.probBreakdown.spec:"--"),"  Testability (20%): "+(r.probBreakdown?r.probBreakdown.test:"--"));
   lines.push("","KEY INPUTS","  Audience: "+(auL[full.audience]||"--"),"  Regulatory: "+(reL[full.regulatory]||"--"),"  Financial: "+(fiL[full.financial]||"--"),"  Rollback: "+(roL[full.rollback]||"--"),"  Domain: "+(doL[full.domain]||"--"),"  Spec: "+(spL[full.spec]||"--"),"  Testability: "+(teL[full.test]||"--"),"  Verifiability: "+(veL[full.verify]||"--"));
   lines.push("","RED FLAGS","  PII: "+(full.pii==="yes"?"YES TRIGGERED":"No"),"  Contractual: "+(full.contractual==="yes"?"YES TRIGGERED":"No"),"  First-time: "+(full.firstTime==="yes"?"Yes (+1)":"No"));
   if(S.mode==="continue"&&r.popsTier)lines.push("","DUAL LENS","  POps tier: "+(r.popsTier||"--"),"  SWE tier: "+(r.sweTier||"--"),"  Match: "+(r.tiersMatch?"YES":"NO"));
   lines.push("","CONFIDENCE: "+(f.confidence||"--"),"UNCERTAINTY: "+(f.uncertaintyNotes||"None"));
   lines.push("","CEREMONY NOTES (fill at ceremony)","  Attendees: ___","  Decision: ___","  Action items:","  - ___");
   lines.push("","AI AUTONOMY LEVELS","  Discover: "+r.levels.Discover,"  Define:   "+r.levels.Define,"  Develop:  "+r.levels.Develop,"  Deliver:  "+r.levels.Deliver);
-  lines.push("",sep,"Methodology: OpsDefense v1.0 | Scoring: v1 | Tool: v2.1 (split+sheets)",sep);
+  lines.push("",sep,"Methodology: OpsDefense v1.0 | Scoring: v1 | Tool: v2.2 (split+sheets)",sep);
   return lines.join("\n");
 }
 
 // ============================================================
 // ACTIONS
 // ============================================================
-function startMode(m){S.mode=m;S.phase="form";S.step=0;render();}
+function startMode(m){
+  if(!S.assessorEmail||!S.assessorEmail.includes("@")){
+    alert("Please enter your email address at the top before starting.");
+    var ei=$("emailInput");if(ei)ei.focus();
+    return;
+  }
+  S.mode=m;S.phase="form";S.step=0;render();
+}
 function goNext(){
   if(S.mode==="continue"&&S.step===0&&!S.selectedPartner){S.error="Select an assessment first.";render();return;}
   S.error=null;S.step++;render();window.scrollTo(0,0);
@@ -529,12 +571,12 @@ function goBack(){S.error=null;if(S.step>0){S.step--;render();}else{resetState()
 
 function saveNew(){
   S.phase="loading";render();
-  var d={betName:S.form.betName,summary:S.form.summary,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,pii:S.form.pii,contractual:S.form.contractual,firstTime:S.form.firstTime,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,preliminaryTier:S.form.preliminaryTier||""};
+  var sc=S.form._computedScore||computeScore(mergeForScore());
+  var d={betName:S.form.betName,summary:S.form.summary,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,pii:S.form.pii,contractual:S.form.contractual,firstTime:S.form.firstTime,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,preliminaryTier:S.form.preliminaryTier||"",probScore:sc.probScore,probLabel:sc.probLabel,impactCol:sc.impactCol,baseTier:sc.baseTier,mergedTier:sc.tier};
   apiCall("create",d,function(res){
     if(res.error){S.error=res.error;S.phase="form";S.step=3;render();return;}
-    S.result=computeScore(mergeForScore());
+    S.result=sc;
     S.result.assessmentId=res.assessmentId;
-    S.result.savedForPartner=true;
     S.phase="result";render();window.scrollTo(0,0);
   });
 }
@@ -543,7 +585,7 @@ function saveComplete(){
   var p=S.selectedPartner;
   var myLens=mergeForScore();var mySc=computeScore(myLens);
   var full=mergeWithPartner();var fullSc=computeScore(full);
-  var d={assessmentId:p.assessmentId,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,popsTier:S.form.role==="POps"?mySc.tier:"",sweTier:S.form.role==="SWE"?mySc.tier:""};
+  var d={assessmentId:p.assessmentId,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,popsTier:S.form.role==="POps"?mySc.tier:(p.popsTier||""),sweTier:S.form.role==="SWE"?mySc.tier:(p.sweTier||""),probScore:fullSc.probScore,probLabel:fullSc.probLabel,impactCol:fullSc.impactCol,baseTier:fullSc.baseTier,mergedTier:fullSc.tier};
   apiCall("complete",d,function(res){
     if(res.error){S.error=res.error;S.phase="form";S.step=3;render();return;}
     S.result=fullSc;
@@ -554,27 +596,26 @@ function saveComplete(){
     S.phase="result";render();window.scrollTo(0,0);
   });
 }
-function saveSolo(){
-  S.phase="loading";render();
-  var sc=computeScore(mergeForScore());
-  var d={betName:S.form.betName,summary:S.form.summary,role:S.form.role,audience:S.form.audience,regulatory:S.form.regulatory,financial:S.form.financial,spec:S.form.spec,rollback:S.form.rollback,domain:S.form.domain,test:S.form.test,verify:S.form.verify,pii:S.form.pii,contractual:S.form.contractual,firstTime:S.form.firstTime,confidence:S.form.confidence,uncertaintyNotes:S.form.uncertaintyNotes,tier:sc.tier};
-  apiCall("solo",d,function(res){
-    if(res.error){S.error=res.error;S.phase="form";S.step=3;render();return;}
-    S.result=sc;S.result.assessmentId=res.assessmentId;
-    S.phase="result";render();window.scrollTo(0,0);
-  });
-}
 
 function selectPartner(idx){S.selectedPartner=S.searchResults[idx];render();}
 
 var searchTimer=null;
-function doSearch(q){
+function doSearch(q,cursorPos){
   S.searchQuery=q;S.selectedPartner=null;
   clearTimeout(searchTimer);
-  if(q.length<2){S.searchResults=[];render();return;}
+  if(q.length<2){S.searchResults=[];render();restoreSearchFocus(q,cursorPos);return;}
   searchTimer=setTimeout(function(){
-    apiSearch(q,function(res){S.searchResults=res.results||[];render();var sb=$("searchBox");if(sb){sb.value=q;sb.focus();}});
+    apiSearch(q,function(res){
+      S.searchResults=res.results||[];
+      // Save focus info BEFORE render destroys the input
+      S._restoreFocus={id:"searchBox",val:q,pos:cursorPos};
+      render();
+    });
   },400);
+}
+function restoreSearchFocus(val,pos){
+  S._restoreFocus={id:"searchBox",val:val,pos:pos};
+  render();
 }
 
 function doCopy(){
@@ -585,12 +626,22 @@ function doCopy(){
 // BINDING
 // ============================================================
 function bindAll(){
+  // Bind the search box separately (NOT via data-field to avoid render loop)
+  var sb=$("searchBox");
+  if(sb){
+    sb.addEventListener("input",function(){
+      doSearch(sb.value,sb.selectionStart);
+    });
+  }
+  // Bind email input separately
+  var ei=$("emailInput");
+  if(ei){
+    ei.addEventListener("input",function(){S.assessorEmail=ei.value;});
+  }
+  // Bind all data-field elements
   document.querySelectorAll("[data-field]").forEach(function(el){
     var f=el.getAttribute("data-field");
-    if(f==="searchQuery"){
-      el.addEventListener("input",function(){doSearch(el.value);});
-      return;
-    }
+    if(f==="assessorEmail")return; // handled above
     if(el.tagName==="SELECT"){
       el.addEventListener("change",function(){S.form[f]=el.value;render();});
     } else {
@@ -602,11 +653,10 @@ function bindAll(){
 function validateBtn(){
   var btn=$("bn");if(!btn)return;
   var ok=true;
-  if(S.mode==="new"||S.mode==="solo"){
+  if(S.mode==="new"){
     if(S.step===0)ok=S.form.betName&&S.form.role&&S.form.summary;
     else if(S.step===1){
-      if(S.mode==="solo")ok=S.form.audience&&S.form.regulatory&&S.form.financial&&S.form.spec&&S.form.rollback&&S.form.domain&&S.form.test&&S.form.verify;
-      else if(S.form.role==="POps")ok=S.form.audience&&S.form.regulatory&&S.form.financial&&S.form.spec;
+      if(S.form.role==="POps")ok=S.form.audience&&S.form.regulatory&&S.form.financial&&S.form.spec;
       else if(S.form.role==="SWE")ok=S.form.rollback&&S.form.domain&&S.form.test&&S.form.verify;
     }
     else if(S.step===2)ok=S.form.pii&&S.form.contractual&&S.form.firstTime&&S.form.confidence;
